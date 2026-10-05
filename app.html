@@ -71,7 +71,7 @@ main{max-width:1180px;margin:0 auto;padding:22px 16px 140px}
 :root[data-theme="dark"]{--sec:#2a2a2d;--orange:#ff9f0a;--orange-soft:rgba(255,159,10,.14)}
 .card{padding:14px}
 .sec{background:var(--sec);border-radius:16px;padding:16px;margin-bottom:12px}
-.sec .inp{background:var(--surface)}
+.sec .inp{background-color:var(--surface)}
 .sec .subhead{margin:0 0 12px}
 .hero h2{margin:0}
 .hero-acts{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}
@@ -83,6 +83,13 @@ main{max-width:1180px;margin:0 auto;padding:22px 16px 140px}
 .suffix .inp{padding-right:36px}
 .suffix span{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text-2);font-weight:600;pointer-events:none}
 .tag.o{color:var(--orange);background:var(--orange-soft)}
+.pi-grp{display:flex;gap:8px;align-items:center;border-radius:12px}
+.pi-grp.miss .inp{border-color:var(--danger)!important}
+.pi-fix{flex:none;height:44px;display:flex;align-items:center;padding:0 12px;border-radius:11px;background:var(--line);color:var(--text-2);font-weight:600;font-size:16px;user-select:none}
+#iPiYm{flex:1.3;min-width:0}#iPiSeq{flex:1;min-width:0}
+input[list].inp{padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12'%3E%3Cpath d='M2 2l8 8 8-8' stroke='%233a3a3c' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:20px 12px}
+input[list].inp::-webkit-calendar-picker-indicator{opacity:0;width:30px;height:30px;cursor:pointer;margin-right:-6px}
+:root[data-theme="dark"] input[list].inp,:root[data-theme="dark"] select.inp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12'%3E%3Cpath d='M2 2l8 8 8-8' stroke='%23d1d1d6' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
 .inp.miss{border-color:var(--danger)!important;box-shadow:0 0 0 3px var(--danger-soft)}
 .pv-head{margin:26px 2px 12px}
 .pv-head h3{margin:0;font-size:20px;font-weight:600;letter-spacing:-.01em}
@@ -109,12 +116,12 @@ main{max-width:1180px;margin:0 auto;padding:22px 16px 140px}
 .f .ctl{display:flex;gap:6px;align-items:center}
 .inp{width:100%;height:44px;font-size:16px;padding:0 12px;border-radius:11px;border:1px solid var(--line-2);background:var(--surface-2);
   outline:none;font-size:14px;transition:border-color .25s var(--ease),box-shadow .25s var(--ease),background .25s}
-.inp:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);background:var(--surface)}
+.inp:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);background-color:var(--surface)}
 .inp::placeholder{color:var(--text-3)}
-select.inp{appearance:none;-webkit-appearance:none;padding-right:40px;background-size:16px 10px;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10'%3E%3Cpath d='M2 2l6 6 6-6' stroke='%236e6e73' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+select.inp{appearance:none;-webkit-appearance:none;padding-right:44px;background-size:20px 12px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12'%3E%3Cpath d='M2 2l8 8 8-8' stroke='%233a3a3c' stroke-width='2.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 14px center}
-.inp.warn{border-color:var(--danger);color:var(--danger);background:var(--danger-soft);font-weight:600}
+.inp.warn{border-color:var(--danger);color:var(--danger);background-color:var(--danger-soft);font-weight:600}
 .inp.sm{width:86px;flex:none}
 .hint{font-size:13px;color:var(--text-3);min-height:16px;line-height:1.35}
 .hint-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;min-height:14px}
@@ -329,7 +336,7 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
         <div class="ta-list" id="taOrder0"></div><div class="hint" id="hOrder0"></div></div>
       <div class="f"><label><span data-i="batch">批次</span> 1<span class="tag" id="tgB0"></span></label>
         <select class="inp" id="iBatch0"></select><div class="hint"></div></div>
-      <div class="full"><button class="more-btn" id="addOrder"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3.5 6 8 10.5 12.5 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="moreTxt"></span></button></div>
+      <div class="full"><button class="more-btn" id="addOrder"><svg width="20" height="20" viewBox="0 0 16 16"><path d="M3.5 6 8 10.5 12.5 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="moreTxt"></span></button></div>
       <div class="f oslot hidden"><label><span data-i="orderNo">订单编号</span> 2<span class="tag" id="tgO1"></span></label>
         <input class="inp" id="iOrder1" data-ph="orderPh" autocomplete="off"><div class="ta-list" id="taOrder1"></div><div class="hint" id="hOrder1"></div></div>
       <div class="f oslot hidden"><label><span data-i="batch">批次</span> 2<span class="tag" id="tgB1"></span></label><select class="inp" id="iBatch1"></select><div class="hint"></div></div>
@@ -339,7 +346,8 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
     </div></div>
     <div class="sec"><div class="grid g2">
       <div class="f"><label>PI / Invoice No.<span class="tag" id="tgPi"></span></label>
-        <input class="inp" id="iPi" data-ph="piPh" autocomplete="off"><div class="hint"></div></div>
+        <div class="pi-grp" id="iPi"><span class="pi-fix">HTEG-P-</span><input class="inp" id="iPiYm" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="YYYYMM"><input class="inp" id="iPiSeq" list="seqList" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="01"></div>
+        <datalist id="seqList"><option value="01"><option value="02"><option value="03"><option value="04"><option value="05"><option value="06"><option value="07"><option value="08"><option value="09"><option value="10"><option value="11"><option value="12"><option value="13"><option value="14"><option value="15"><option value="16"><option value="17"><option value="18"><option value="19"><option value="20"></datalist><div class="hint" id="hPi"></div></div>
       <div class="f"><label>Invoice Date<span class="tag" id="tgDate"></span></label>
         <input class="inp" id="iDate" type="date"><div class="hint" id="hDate"></div></div>
     </div></div>
@@ -356,7 +364,7 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
         <div class="suffix"><input class="inp" id="iAdv" type="number" step="any" min="0" max="100" inputmode="decimal"><span>%</span></div><div class="hint"></div></div></div>
     </div></div>
 
-    <button class="disclose" id="discBtn"><svg width="12" height="12" viewBox="0 0 10 10"><path d="M3 1.5 6.5 5 3 8.5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg><span data-i="moreInfo">客户资料、条款与收款银行（自动匹配，可人工覆盖）</span></button>
+    <button class="disclose" id="discBtn"><svg width="16" height="16" viewBox="0 0 10 10"><path d="M3 1.5 6.5 5 3 8.5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg><span data-i="moreInfo">客户资料、条款与收款银行（自动匹配，可人工覆盖）</span></button>
     <div class="collapse" id="disc"><div>
       <div class="sec"><div class="subhead" data-i="custTerms">客户资料与条款</div><div class="grid" id="ovrGrid"></div></div>
       <div class="sec"><div class="subhead" data-i="bankInfo">收款银行（按回款币种自动匹配）</div><div class="grid" id="bankGrid"></div></div>
@@ -2405,12 +2413,13 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
     }
     return parts.join(' ');
   }
-  function sayTotal(amount, code) {
-    const a = Math.round((Number(amount) || 0) * 100);
-    const major = Math.floor(a / 100), minor = a % 100;
+  const DIGITS = ['ZERO', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE'];
+  function sayTotal(amount, code) { // 3 decimals, same as the table: ... SIXTY-FIVE POINT ZERO TWO TWO ONLY.
+    const a = Math.round((Number(amount) || 0) * 1000);
+    const major = Math.floor(a / 1000), frac = String(a % 1000).padStart(3, '0').replace(/0+$/, '');
     const nm = CUR_NAMES[code] || [code, 'CENTS'];
     let s = `${nm[0]} ${intWords(major)}`;
-    if (minor) s += ` AND ${nm[1]} ${intWords(minor)}`;
+    if (frac) s += ' POINT ' + frac.split('').map((d) => DIGITS[+d]).join(' ');
     return s + ' ONLY.';
   }
 
@@ -2942,21 +2951,22 @@ async function doRefresh() {
 }
 function renderStamp() {
   const s = $('#stamp');
-  if (!DATA) { s.textContent = 'v11 · ' + t('noData'); return; }
+  if (!DATA) { s.textContent = 'v12 · ' + t('noData'); return; }
   const d = new Date(DATA.fetchedAt);
-  s.textContent = 'v11 · ' + t('updatedAt') + d.toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  s.textContent = 'v12 · ' + t('updatedAt') + d.toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
 }
 
 /* ============ form state ============ */
 const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const OVR_FIELDS = [['customer', 'name'], ['address', 'address'], ['vat', 'vat'], ['reg', 'reg'], ['contact', 'contact'], ['email', 'email'], ['tel', 'tel'], ['contractNo', 'contractNo'], ['paymentTerms', 'paymentTerms'], ['priceTerm', 'priceTerm'], ['loadingPlace', 'loadingPlace'], ['dischargePlace', 'dischargePlace'], ['deliveryTime', 'deliveryTime'], ['unit', 'unit']];
 const BANK_FIELDS = [['bName', 'name'], ['bBank', 'bank'], ['bSwift', 'swift'], ['bIban', 'iban'], ['bAcct', 'acct']];
-function blankForm() { return { orders: [{ no: '', batch: '' }, { no: '', batch: '' }, { no: '', batch: '' }], more: false, batchMod: [false, false, false], dateMod: false, piNo: '', date: today(), orderCur: '', orderCurOther: '', payCur: '', payCurOther: '', curSrc: { o: 'none', p: 'none' }, rate: '', rateManual: false, advance: 100, ovr: {}, bank: {} }; }
+function blankForm() { return { orders: [{ no: '', batch: '' }, { no: '', batch: '' }, { no: '', batch: '' }], more: false, batchMod: [false, false, false], dateMod: false, piNo: '', piYm: '', piSeq: '', piYmMod: false, piSeqMod: false, date: today(), orderCur: '', orderCurOther: '', payCur: '', payCurOther: '', curSrc: { o: 'none', p: 'none' }, rate: '', rateManual: false, advance: 100, ovr: {}, bank: {} }; }
 function normForm(f) {
   const b = blankForm(); f = Object.assign(b, f || {});
   if (f.orderNo !== undefined) { f.orders[0] = { no: f.orderNo || '', batch: f.batch || '' }; delete f.orderNo; delete f.batch; }
   while (f.orders.length < 3) f.orders.push({ no: '', batch: '' });
   f.ovr = f.ovr || {}; f.bank = f.bank || {};
+  if (f.piNo && !f.piYm) { const m = String(f.piNo).match(/^HTEG-P-(\d{6})(\d{1,3})$/); if (m) { f.piYm = m[1]; f.piSeq = m[2]; } else { f.piYm = ''; f.piSeq = ''; } f.piYmMod = f.piSeqMod = true; }
   if (!f.curSrc) f.curSrc = { o: f.orderCur ? 'manual' : 'none', p: f.payCur ? 'manual' : 'none' }; f.more = !!(f.more || f.slots > 1 || f.orders[1].no || f.orders[2].no); f.batchMod = f.batchMod || [false, false, false];
   return f;
 }
@@ -3005,6 +3015,24 @@ function buildInv() {
   };
 }
 function saveDraft() { /* intentionally not persisted */ }
+const PI_PREFIX = 'HTEG-P-';
+const ymOf = (iso) => String(iso || today()).slice(0, 7).replace('-', '');
+function composePi() { F.piNo = (F.piYm || F.piSeq) ? PI_PREFIX + (F.piYm || '') + (F.piSeq || '') : ''; const h = document.getElementById('hPi'); if (h) h.textContent = F.piNo; }
+function suggestSeq() {
+  if (F.piSeqMod) return;
+  const ym = F.piYm; if (!/^\d{6}$/.test(ym)) return;
+  let max = 0; const re = new RegExp('^' + PI_PREFIX.replace(/-/g, '\\-') + ym + '(\\d{1,3})$');
+  (HIST || []).forEach((h) => { const m = String((h.snap && h.snap.inv && h.snap.inv.piNo) || '').match(re); if (m) max = Math.max(max, +m[1]); });
+  F.piSeq = String(max + 1).padStart(2, '0');
+}
+function syncPi() {
+  if (!F.piYm) F.piYm = ymOf(F.date);
+  if (!F.piSeq) suggestSeq();
+  composePi();
+  const y = $('#iPiYm'), q = $('#iPiSeq'); if (!y) return;
+  y.value = F.piYm; q.value = F.piSeq;
+  const h = $('#hPi'); if (h) h.textContent = F.piNo;
+}
 function resetForm() {
   frozen = null; F = normForm(null); reqActive = false; document.querySelectorAll('.inp.miss').forEach((e) => e.classList.remove('miss'));
   $('#zoomer').classList.remove('show');
@@ -3073,7 +3101,7 @@ function syncInputs() {
   for (let i = 0; i < 3; i++) $('#iOrder' + i).value = F.orders[i].no;
   document.querySelectorAll('.oslot').forEach((el) => el.classList.toggle('hidden', !F.more));
   syncMoreBtn();
-  $('#iPi').value = F.piNo; $('#iDate').value = F.date;
+  syncPi(); $('#iDate').value = F.date;
   $('#iOC').value = curOf('o'); $('#iPC').value = curOf('p');
   curHints();
   $('#iAdv').value = F.advance;
@@ -3127,7 +3155,7 @@ function reqCheck(show) {
   const a = frozen ? frozen.auto : autoValues(), b = bankAuto();
   const oc = PICore.curCode(F.orderCur, F.orderCurOther), pc = PICore.curCode(F.payCur, F.payCurOther);
   const filled = (v) => v !== undefined && v !== null && String(v).trim() !== '';
-  const list = [['#iOrder0', filled(F.orders[0].no)], ['#iPi', filled(F.piNo)], ['#iDate', filled(F.date)], ['#iOC', filled(curOf('o'))], ['#iPC', filled(curOf('p'))],
+  const list = [['#iOrder0', filled(F.orders[0].no)], ['#iPi', /^\d{6}$/.test(F.piYm || '') && filled(F.piSeq)], ['#iDate', filled(F.date)], ['#iOC', filled(curOf('o'))], ['#iPC', filled(curOf('p'))],
     ['#iRate', (oc && oc === pc) || (filled(F.rate) && !isNaN(Number(F.rate)))], ['#iAdv', filled(F.advance)]];
   OVR_FIELDS.forEach(([, k]) => list.push(['#ov_ovrGrid_' + k, filled(F.ovr[k]) || filled(a[k])]));
   BANK_FIELDS.forEach(([, k]) => list.push(['#ov_bankGrid_' + k, filled(F.bank[k]) || filled(b[k])]));
@@ -3157,7 +3185,7 @@ function refreshTags() {
     setTag('tgO' + i, 'manual');
     setTag('tgB' + i, F.orders[i].no ? (F.batchMod[i] ? 'mod' : 'auto') : '');
   }
-  setTag('tgPi', 'manual'); setTag('tgAdv', 'manual');
+  setTag('tgPi', (F.piYmMod || F.piSeqMod) ? 'mod' : 'auto'); setTag('tgAdv', 'manual');
   setTag('tgDate', F.dateMod ? 'mod' : 'auto');
   const oc = PICore.curCode(F.orderCur, F.orderCurOther), pc = PICore.curCode(F.payCur, F.payCurOther);
   const auto = oc && pc && oc !== pc ? rateFor(oc, pc, F.date || today()) : null;
@@ -3207,8 +3235,10 @@ function bindInputs() {
   }
   $('#addOrder').addEventListener('click', () => { F.more = !F.more; document.querySelectorAll('.oslot').forEach((el) => el.classList.toggle('hidden', !F.more)); syncMoreBtn(); if (F.more) setTimeout(() => $('#iOrder1').focus(), 50); });
 
-  $('#iPi').addEventListener('input', (e) => { F.piNo = e.target.value.trim(); saveDraft(); schedule(); });
-  $('#iDate').addEventListener('change', (e) => { F.date = e.target.value || today(); F.dateMod = F.date !== today(); saveDraft(); updateRateUI(); schedule(); });
+  $('#iPiYm').addEventListener('input', (e) => { F.piYm = e.target.value.replace(/\D/g, '').slice(0, 6); e.target.value = F.piYm; F.piYmMod = true; suggestSeq(); composePi(); schedule(); });
+  $('#iPiSeq').addEventListener('input', (e) => { F.piSeq = e.target.value.replace(/\D/g, '').slice(0, 3); e.target.value = F.piSeq; F.piSeqMod = true; composePi(); schedule(); });
+  $('#iPiSeq').addEventListener('blur', (e) => { if (/^\d$/.test(F.piSeq)) { F.piSeq = '0' + F.piSeq; e.target.value = F.piSeq; composePi(); schedule(); } });
+  $('#iDate').addEventListener('change', (e) => { F.date = e.target.value || today(); F.dateMod = F.date !== today(); if (!F.piYmMod) { F.piYm = ymOf(F.date); suggestSeq(); syncPi(); } saveDraft(); updateRateUI(); schedule(); });
   const curChange = () => { F.rateManual = false; saveDraft(); updateRateUI(); refreshOvrHints(); schedule(); };
   $('#iOC').addEventListener('input', (e) => { setCur('o', e.target.value); F.curSrc.o = normCur(autoValues().orderCur) ? 'mod' : 'manual'; curHints(); curChange(); });
   $('#iPC').addEventListener('input', (e) => { setCur('p', e.target.value); F.curSrc.p = normCur(autoValues().payCur) ? 'mod' : 'manual'; F.bank = {}; syncOvr(); curHints(); curChange(); });
@@ -3458,7 +3488,7 @@ function download(blob, name) {
 function validate(inv, forSave) {
   if (inv.orderNo && (!PICore.curCode(inv.orderCur, inv.orderCurOther) || !PICore.curCode(inv.payCur, inv.payCurOther))) { toast(t('needCur')); return false; }
   if (!inv.orderNo) { toast(t('needOrder')); return false; }
-  if (forSave && !inv.piNo) { toast(t('needPi')); $('#iPi').focus(); return false; }
+  if (forSave && !inv.piNo) { toast(t('needPi')); $('#iPiSeq').focus(); return false; }
   const c = PICore.compute(inv);
   if (!c.same && (c.rate == null || isNaN(c.rate))) { toast(t('needRate')); $('#iRate').focus(); return false; }
   return true;
@@ -3647,7 +3677,7 @@ async function boot() {
     else if (!DATA || DATA.v !== 3) { doRefresh(); } // data format changed in this version: refresh once automatically
   }
   try { await loadHist(); } catch (e) { console.warn(e); }
-  updateBadge();
+  updateBadge(); suggestSeq(); syncPi(); schedule();
 }
 document.addEventListener('DOMContentLoaded', () => {
   applyLang(); applyTheme();
