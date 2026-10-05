@@ -76,6 +76,25 @@ select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
 .inp.warn{border-color:var(--danger);color:var(--danger);background:var(--danger-soft);font-weight:600}
 .inp.sm{width:86px;flex:none}
 .hint{font-size:11px;color:var(--text-3);min-height:14px}
+.hint-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;min-height:14px}
+.link{font-size:11.5px;font-weight:600;color:var(--accent);padding:0;white-space:nowrap}
+.link:hover{text-decoration:underline}
+.link.rm{color:var(--text-3);margin-left:6px;font-size:11px}
+.subhead{font-size:12px;font-weight:700;color:var(--text);margin:18px 0 0;letter-spacing:.01em}
+.oslot{animation:rise .5s var(--ease) both}
+#previewOuter{cursor:zoom-in}
+#zoomer{position:fixed;inset:0;z-index:80;background:rgba(20,20,22,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s}
+#zoomer.show{opacity:1;visibility:visible}
+#zStage{position:absolute;inset:0;overflow:hidden;cursor:grab;touch-action:none}
+#zStage.drag{cursor:grabbing}
+#zCanvas{position:absolute;left:0;top:0;transform-origin:0 0;width:794px;transition:transform .12s ease-out}
+#zCanvas.nt{transition:none}
+.zbar{position:absolute;z-index:2;top:14px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:980px;
+  background:rgba(40,40,44,.8);color:#f5f5f7;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.zbar .icon-btn{color:#f5f5f7}.zbar .icon-btn:hover{background:rgba(255,255,255,.12)}
+.zbar #zPct{font-size:12px;font-weight:600;min-width:46px;text-align:center}
+.zbar .pill.ghost{background:rgba(255,255,255,.12);color:#fff;height:30px}
 .hint.danger{color:var(--danger)}
 .divider{height:1px;background:var(--line);margin:16px 0}
 .disclose{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--accent);padding:4px 0}
@@ -185,14 +204,19 @@ select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
 .pg .co{text-align:center;font-weight:700;font-size:17px;margin-top:2px}
 .pg .ti{text-align:center;font-weight:700;font-size:16px;letter-spacing:.08em;margin-top:4px}
 .pg .or{text-align:center;font-size:10px;margin-top:2px;margin-bottom:12px}
-.pg .parties{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pg .hgrid{display:grid;grid-template-columns:92px minmax(0,1fr) 104px minmax(0,1fr);column-gap:8px;row-gap:3px;align-items:start}
+.pg .hgrid b{font-weight:700;white-space:nowrap}
+.pg .hgrid div{word-break:break-word}
+.pg .hgrid .sp{grid-column:1/-1;height:6px}
+.pg .hgrid .v2{padding-right:0}
+.pg .hgrid .l2{padding-left:12px}
 .pg .kv{display:grid;grid-template-columns:96px 1fr;column-gap:6px;row-gap:3px;align-items:start}
 .pg .kv b{font-weight:700}
 .pg .kv div{white-space:pre-line;word-break:break-word}
 .pg .meta{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px}
 .pg table{width:100%;border-collapse:collapse;margin-top:12px;table-layout:fixed}
 .pg th,.pg td{border:1px solid #000;padding:4px 5px;text-align:center;vertical-align:middle;word-break:break-word}
-.pg th{font-weight:700;height:28px}
+.pg th{font-weight:700;height:32px;font-size:12.5px;background:#e7e9ee;letter-spacing:.01em}
 .pg td{height:24px}
 .pg tr.tot td{font-weight:700}
 .pg .body{flex:1;min-height:0;overflow:hidden}
@@ -244,15 +268,21 @@ select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
 
   <section class="card reveal d1" id="inputs">
     <div class="grid">
-      <div class="f"><label data-i="orderNo">订单编号</label>
-        <input class="inp" id="iOrder" data-ph="orderPh" autocomplete="off">
-        <div class="ta-list" id="taOrder"></div><div class="hint" id="hOrder"></div></div>
-      <div class="f"><label data-i="batch">批次</label>
-        <select class="inp" id="iBatch"></select><div class="hint" id="hBatch"></div></div>
+      <div class="f"><label><span data-i="orderNo">订单编号</span> 1</label>
+        <input class="inp" id="iOrder0" data-ph="orderPh" autocomplete="off">
+        <div class="ta-list" id="taOrder0"></div><div class="hint-row"><span class="hint" id="hOrder0"></span><button class="link" id="addOrder" data-i="addOrder">+ 添加订单</button></div></div>
+      <div class="f"><label><span data-i="batch">批次</span> 1</label>
+        <select class="inp" id="iBatch0"></select><div class="hint"></div></div>
       <div class="f"><label>PI / Invoice No.</label>
         <input class="inp" id="iPi" data-ph="piPh" autocomplete="off"><div class="hint"></div></div>
       <div class="f"><label>Invoice Date</label>
         <input class="inp" id="iDate" type="date"><div class="hint" id="hDate"></div></div>
+      <div class="f oslot hidden" data-k="1"><label><span data-i="orderNo">订单编号</span> 2 <button class="link rm" data-rm="1">✕</button></label>
+        <input class="inp" id="iOrder1" data-ph="orderPh" autocomplete="off"><div class="ta-list" id="taOrder1"></div><div class="hint" id="hOrder1"></div></div>
+      <div class="f oslot hidden" data-k="1"><label><span data-i="batch">批次</span> 2</label><select class="inp" id="iBatch1"></select><div class="hint"></div></div>
+      <div class="f oslot hidden" data-k="2"><label><span data-i="orderNo">订单编号</span> 3 <button class="link rm" data-rm="2">✕</button></label>
+        <input class="inp" id="iOrder2" data-ph="orderPh" autocomplete="off"><div class="ta-list" id="taOrder2"></div><div class="hint" id="hOrder2"></div></div>
+      <div class="f oslot hidden" data-k="2"><label><span data-i="batch">批次</span> 3</label><select class="inp" id="iBatch2"></select><div class="hint"></div></div>
 
       <div class="f"><label data-i="orderCur">订单币种</label>
         <div class="ctl"><select class="inp" id="iOC"></select><input class="inp sm hidden" id="iOCo" placeholder="SAR"></div><div class="hint" id="hOC"></div></div>
@@ -260,19 +290,22 @@ select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
         <div class="ctl"><select class="inp" id="iPC"></select><input class="inp sm hidden" id="iPCo" placeholder="SAR"></div><div class="hint"></div></div>
       <div class="f"><label data-i="rate">汇率</label>
         <div class="ctl"><input class="inp" id="iRate" type="number" step="any" inputmode="decimal"><a class="pill ghost" id="nbeLink" href="https://www.nbe.com.eg/NBE/E/#/EN/ExchangeRate" target="_blank" rel="noopener" style="height:40px;text-decoration:none">NBE</a></div>
-        <div class="hint" id="hRate"></div></div>
+        <div class="hint-row"><span class="hint" id="hRate"></span><button class="link hidden" id="rateAuto" data-i="rateAutoBtn">恢复自动</button></div></div>
       <div class="f"><label data-i="advance">预付款比例</label>
         <div class="ctl"><input class="inp" id="iAdv" type="number" step="any" min="0" max="100" inputmode="decimal"><span style="color:var(--text-2);font-weight:600">%</span></div><div class="hint"></div></div>
     </div>
 
     <div class="divider"></div>
-    <button class="disclose" id="discBtn"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M3 1.5 6.5 5 3 8.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><span data-i="moreInfo">客户资料与条款（自动匹配，可人工覆盖）</span></button>
+    <button class="disclose" id="discBtn"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M3 1.5 6.5 5 3 8.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><span data-i="moreInfo">客户资料、条款与收款银行（自动匹配，可人工覆盖）</span></button>
     <div class="collapse" id="disc"><div>
+      <div class="subhead" data-i="custTerms">客户资料与条款</div>
       <div class="grid" id="ovrGrid"></div>
+      <div class="subhead" data-i="bankInfo">收款银行（按回款币种自动匹配）</div>
+      <div class="grid" id="bankGrid"></div>
     </div></div>
   </section>
 
-  <div class="section-title reveal d2"><h3 data-i="preview">形式发票预览</h3><span id="pageInfo"></span></div>
+  <div class="section-title reveal d2"><h3 data-i="preview">形式发票预览</h3><span><span data-i="zoomTip">双击放大 · 滚轮缩放</span> · <span id="pageInfo"></span></span></div>
   <div id="previewOuter" class="reveal d3"><div id="previewScale"><div class="pages" id="pages"></div></div></div>
 </main>
 
@@ -295,6 +328,10 @@ select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
 <div class="modal" id="pvModal">
   <header><h3 id="pvTitle"></h3><div style="display:flex;gap:6px"><button class="pill ghost" id="pvX">Excel</button><button class="pill ghost" id="pvP">PDF</button><button class="icon-btn" data-close>✕</button></div></header>
   <div class="body"><div id="pvScale" style="transform-origin:top left"><div class="pages" id="pvPages"></div></div></div>
+</div>
+<div id="zoomer">
+  <div class="zbar"><button class="icon-btn" id="zOut">−</button><span id="zPct">100%</span><button class="icon-btn" id="zIn">+</button><button class="pill ghost" id="zFit" data-i="zFit">适应</button><button class="icon-btn" id="zClose">✕</button></div>
+  <div id="zStage"><div id="zCanvas"><div class="pages" id="zPages"></div></div></div>
 </div>
 <div class="toast" id="toast"></div>
 <div id="printRoot"></div>
@@ -2263,7 +2300,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
   };
   const SELLER = {
     name: 'Hengtong Optic-Electric Egypt Co.,S.A.E',
-    address: 'Building no.2-2 in economic zone-third sector,North West Suez Gulf, \nEin Sokhna Suez,Egypt',
+    address: 'Building no.2-2 in economic zone-third sector,North West Suez Gulf, Ein Sokhna Suez,Egypt',
     tax: '579-812-685', reg: '69', contact: 'Michael Yan', email: 'yanxh@hengtonggroup.com', tel: '01158812114'
   };
   const CUR_NAMES = { USD: ['US DOLLARS', 'CENTS'], EUR: ['EUROS', 'CENTS'], EGP: ['EGYPTIAN POUNDS', 'PIASTRES'], CNY: ['CHINESE YUAN', 'FEN'] };
@@ -2309,7 +2346,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
     const a = Math.round((Number(amount) || 0) * 100);
     const major = Math.floor(a / 100), minor = a % 100;
     const nm = CUR_NAMES[code] || [code, 'CENTS'];
-    let s = `SAY ${nm[0]} ${intWords(major)}`;
+    let s = `${nm[0]} ${intWords(major)}`;
     if (minor) s += ` AND ${nm[1]} ${intWords(minor)}`;
     return s + ' ONLY.';
   }
@@ -2329,7 +2366,10 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
     const totalPay = same ? total : (rate != null ? r3(total * rate) : null);
     const adv = inv.advance === '' || inv.advance == null ? 1 : Number(inv.advance) / 100;
     const advance = totalPay != null ? r3(totalPay * adv) : null;
-    const bank = BANKS[pc] || { bank: '/', acct: '/', iban: '/', swift: '/', branch: '' };
+    const auto = BANKS[pc] || { bank: '/', acct: '/', iban: '/', swift: '/', branch: '' };
+    const ob = inv.bank || {};
+    const pickB = (k, d) => (ob[k] !== undefined && String(ob[k]).trim() !== '') ? String(ob[k]) : d;
+    const bank = { name: pickB('name', 'Hengtong Optic-Electric Egypt Co., S.A.E'), bank: pickB('bank', auto.bank), swift: pickB('swift', auto.swift), iban: pickB('iban', auto.iban), acct: pickB('acct', auto.acct) };
     return {
       oc, pc, same, items, total, rate, totalPay, advPct: adv, advance, bank,
       dateText: fmtDate(inv.date),
@@ -2404,7 +2444,18 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
 
     // Header block
     const v = (a, val) => { ws.getCell(a).value = val; };
-    v('E9', 'FROM：');
+    v('E9', 'FROM:');
+    const lbl = { A9: 'TO:', A10: 'ADD:', A11: 'VAT No.:', A12: 'Reg. No.:', A13: 'Contact:', A14: 'Email:', A15: 'Tel:', A17: 'Contract No.:',
+      E10: 'ADD:', E11: 'Tax No.:', E12: 'C.R. No.:', E13: 'Contact:', E14: 'Email:', E15: 'Tel:', E17: 'Invoice No.:', E18: 'Invoice Date:', E19: 'Order No.:' };
+    for (const [a, val] of Object.entries(lbl)) v(a, val);
+    v('F10', SELLER.address);
+    v('A18', 'Description: Optical Fiber Cables');
+    for (const col of ['A', 'B', 'C', 'D', 'E', 'F', 'G']) {
+      const h = ws.getCell(col + '23'); own(h);
+      h.font = { ...(h.font || {}), name: 'Microsoft YaHei', size: 20, bold: true };
+      h.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE7E9EE' } };
+    }
+    ws.getRow(23).height = 44;
     const to = inv.to || {};
     const dash = (x) => (x === undefined || x === null || String(x).trim() === '') ? '/' : String(x);
     v('B9', dash(to.name)); v('B10', dash(to.address)); v('B11', dash(to.vat)); v('B12', dash(to.reg));
@@ -2414,6 +2465,9 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
     ws.getCell('F18').value = { formula: 'A1', result: dt };
     sp(ws.getCell('F18'), 'numFmt', 'mmm-dd-yyyy');
     ws.getCell('F19').value = { formula: 'B1', result: inv.orderNo || '' };
+    try { ws.mergeCells('F19:G19'); } catch (e) {}
+    const nOrd = (inv.orderNo || '').split(',').length;
+    ws.getRow(19).height = Math.max(24, 26 * Math.ceil((inv.orderNo || '').length / 34));
     sp(ws.getCell('F19'), 'alignment', { horizontal: 'left', vertical: 'middle', wrapText: true });
     sp(ws.getCell('F19'), 'font', clone(ws.getCell('F17').font));
     sp(ws.getCell('E19'), 'font', clone(ws.getCell('E17').font));
@@ -2468,13 +2522,14 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
 
     // Terms
     v('B' + R(40), c.say || '/');
+    ws.getRow(R(40)).height = Math.max(34, 30 * Math.ceil((c.say || '').length / 95));
     v('B' + R(41), dash(inv.paymentTerms));
     v('B' + R(42), inv.loadingPlace || 'Sokhna Factory');
     v('F' + R(42), dash(inv.priceTerm));
     v('B' + R(43), dash(inv.dischargePlace));
     v('F' + R(43), dash(inv.deliveryTime));
     // Bank
-    v('B' + R(46), 'Hengtong Optic-Electric Egypt Co., S.A.E');
+    v('B' + R(46), c.bank.name);
     v('B' + R(47), c.bank.bank); v('E' + R(47), c.bank.swift);
     v('B' + R(48), c.bank.iban); v('E' + R(48), c.bank.acct);
     ws.getCell('E' + R(47)).alignment = { horizontal: 'left', vertical: 'middle' };
@@ -2511,17 +2566,21 @@ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<
 /* ============ i18n ============ */
 const I18N = {
   zh: {
+    addOrder: '+ 添加订单', diffCust: '客户与订单 1 不同', rateAutoBtn: '恢复自动', custTerms: '客户资料与条款', bankInfo: '收款银行（按回款币种自动匹配）', zoomTip: '双击放大 · 滚轮缩放', zFit: '适应',
+    rateAuto: (a, b, d, r) => `已自动带出 08-Ex Rate（${d}）：1 ${a} = ${r} ${b}，请核对`, rateNotToday: '当天无汇率，已用最近日期', rateNone: '汇率表中未找到该币种对，请手动填写', rateManualSet: '已手动修改汇率',
+    bName: 'Beneficiary Name', bBank: 'Beneficiary Bank', bSwift: 'SWIFT Code', bIban: 'IBAN Number', bAcct: 'Account No.',
+    gRate: '汇率表（08-Ex Rate）', gRateP: '按发票日期取当天汇率；若汇率按列存放（如 USD、EUR 各一列），只需选「日期」，其余留空。', fDate: '日期', fPair: '币种对', fFrom: '原币', fTo: '目标币', fRateV: '汇率值', fOrderCur: '订单币种', fPayCur: '回款币种',
     title: '形式发票制作', gateTip: '请输入访问密码', password: '密码', remember: '此设备记住 7 天', wrongPwd: '密码不正确',
     refresh: '更新数据', updatedAt: '数据更新于 ', noData: '尚未获取数据，请点击「更新数据」', heroTitle: '填写信息，发票实时生成。',
     orderNo: '订单编号', orderPh: '输入部分订单号搜索', batch: '批次', piPh: '手动填写', orderCur: '订单币种', payCur: '回款币种',
-    rate: '汇率', advance: '预付款比例', moreInfo: '客户资料与条款（自动匹配，可人工覆盖）', preview: '形式发票预览',
+    rate: '汇率', advance: '预付款比例', moreInfo: '客户资料、条款与收款银行（自动匹配，可人工覆盖）', preview: '形式发票预览',
     save: '保存', exportXlsx: '导出 Excel', exportPdf: '导出 PDF', box: '保存箱', mapping: '字段映射设置', settings: '字段映射设置', theme: '亮/暗模式',
     allBatch: '全部批次', noBatch: '（无批次）', items: (n) => `${n} 项产品`, pages: (n) => `共 ${n} 页`,
     rateSame: '币种一致，汇率为 1', rateDiff: '币种不一致：请核对当天 NBE 汇率（1 订单币种 = ? 回款币种）', rateManual: '其他币种：请人工填写汇率',
     notFound: '未在台账中找到该订单', matched: (n) => `已匹配 ${n} 条明细`, auto: '自动', ovr: '已覆盖',
     customer: '客户名称', address: '地址 ADD', vat: 'VAT No.', reg: 'Registration No.', contact: 'Contact', email: 'Email', tel: 'Tel',
     contractNo: 'Contract No.', paymentTerms: 'Payment Terms', priceTerm: 'Price Term', loadingPlace: 'Loading Place', dischargePlace: 'Discharge Place', deliveryTime: 'Delivery Time', unit: '默认单位 Unit',
-    fetching: '正在从飞书读取最新数据…', fetched: (n) => `已更新：${n} 条明细`, fetchFail: '读取失败：', notInLark: '未检测到飞书多维表格环境：请在多维表格「插件」中打开本页面。当前仅可使用缓存数据，保存箱存于本机。',
+    fetching: '正在从飞书读取最新数据…', fetched: (n, r) => `已更新：${n} 条明细，${r} 条汇率`, fetchFail: '读取失败：', notInLark: '未检测到飞书多维表格环境：请在多维表格「插件」中打开本页面。当前仅可使用缓存数据，保存箱存于本机。',
     needOrder: '请先选择订单编号', needPi: '请填写 PI / Invoice No.', needRate: '请填写汇率', saving: '正在保存…', saved: '已保存：', saveFail: '保存失败：',
     exporting: '正在生成…', exported: '已下载', boxEmpty: '暂无保存版本', loadingBox: '正在读取保存箱…',
     vPreview: '预览', vRestore: '恢复', vCopy: '复制为新版本', restored: '已恢复该版本', copied: '已复制为新的草稿，修改后点保存即生成新版本',
@@ -2534,17 +2593,21 @@ const I18N = {
     dlBlocked: '若浏览器拦截下载，请到多维表格「' + HIST_NAME + '」中下载附件。', attachFail: '版本已保存，但附件上传失败：'
   },
   en: {
+    addOrder: '+ Add order', diffCust: 'customer differs from order 1', rateAutoBtn: 'Use auto', custTerms: 'Customer & terms', bankInfo: 'Beneficiary bank (matched by payment currency)', zoomTip: 'Double-click to zoom · scroll to scale', zFit: 'Fit',
+    rateAuto: (a, b, d, r) => `Auto from 08-Ex Rate (${d}): 1 ${a} = ${r} ${b} — please verify`, rateNotToday: 'no rate for today, latest date used', rateNone: 'Pair not found in the rate table — enter manually', rateManualSet: 'Rate edited manually',
+    bName: 'Beneficiary Name', bBank: 'Beneficiary Bank', bSwift: 'SWIFT Code', bIban: 'IBAN Number', bAcct: 'Account No.',
+    gRate: 'Exchange rates (08-Ex Rate)', gRateP: 'Uses the rate for the invoice date. If rates are stored one column per currency (USD, EUR…), select only “Date”.', fDate: 'Date', fPair: 'Currency pair', fFrom: 'From', fTo: 'To', fRateV: 'Rate', fOrderCur: 'Order currency', fPayCur: 'Payment currency',
     title: 'Proforma Invoice Builder', gateTip: 'Enter the access password', password: 'Password', remember: 'Remember this device for 7 days', wrongPwd: 'Incorrect password',
     refresh: 'Update data', updatedAt: 'Data as of ', noData: 'No data yet — click “Update data”', heroTitle: 'Fill in. Watch the invoice build itself.',
     orderNo: 'Order No.', orderPh: 'Type part of an order no.', batch: 'Batch', piPh: 'Enter manually', orderCur: 'Order currency', payCur: 'Payment currency',
-    rate: 'Exchange rate', advance: 'Advance payment', moreInfo: 'Customer & terms (auto-matched, override as needed)', preview: 'Invoice preview',
+    rate: 'Exchange rate', advance: 'Advance payment', moreInfo: 'Customer, terms & bank (auto-matched, override as needed)', preview: 'Invoice preview',
     save: 'Save', exportXlsx: 'Export Excel', exportPdf: 'Export PDF', box: 'Saved versions', mapping: 'Field mapping', settings: 'Field mapping', theme: 'Light / dark',
     allBatch: 'All batches', noBatch: '(no batch)', items: (n) => `${n} item${n === 1 ? '' : 's'}`, pages: (n) => `${n} page${n === 1 ? '' : 's'}`,
     rateSame: 'Same currency — rate is 1', rateDiff: 'Currencies differ: check today’s NBE rate (1 order cur. = ? payment cur.)', rateManual: 'Other currency: enter the rate manually',
     notFound: 'Order not found in the ledger', matched: (n) => `${n} line${n === 1 ? '' : 's'} matched`, auto: 'auto', ovr: 'override',
     customer: 'Customer', address: 'Address', vat: 'VAT No.', reg: 'Registration No.', contact: 'Contact', email: 'Email', tel: 'Tel',
     contractNo: 'Contract No.', paymentTerms: 'Payment Terms', priceTerm: 'Price Term', loadingPlace: 'Loading Place', dischargePlace: 'Discharge Place', deliveryTime: 'Delivery Time', unit: 'Default unit',
-    fetching: 'Reading the latest data from Lark…', fetched: (n) => `Updated: ${n} lines`, fetchFail: 'Read failed: ', notInLark: 'Lark Base not detected: open this page from the Base “Extensions” panel. Only cached data is available and saved versions stay on this device.',
+    fetching: 'Reading the latest data from Lark…', fetched: (n, r) => `Updated: ${n} lines, ${r} rates`, fetchFail: 'Read failed: ', notInLark: 'Lark Base not detected: open this page from the Base “Extensions” panel. Only cached data is available and saved versions stay on this device.',
     needOrder: 'Select an order first', needPi: 'Enter the PI / Invoice No.', needRate: 'Enter the exchange rate', saving: 'Saving…', saved: 'Saved: ', saveFail: 'Save failed: ',
     exporting: 'Generating…', exported: 'Downloaded', boxEmpty: 'No saved versions yet', loadingBox: 'Loading saved versions…',
     vPreview: 'Preview', vRestore: 'Restore', vCopy: 'Copy as new', restored: 'Version restored', copied: 'Copied as a new draft — edit and Save to create a new version',
@@ -2624,34 +2687,63 @@ async function readTable(tableId, viewId) {
 
 /* ============ config / field mapping ============ */
 const MAP_DEF = {
-  detail: { label: 'gDetail', p: 'gDetailP', fields: { orderNo: ['fOrderNo', ['订单编号', '订单号', 'order no', 'order']], batch: ['fBatch', ['批次', 'batch']], spec: ['fSpec', ['型号', '规格', '产品', 'specification', 'model']], qty: ['fQty', ['数量', 'qty', 'quantity']], price: ['fPrice', ['单价', 'unit price', 'price']], unit: ['fUnit', ['单位', 'unit']], cur: ['fCur', ['币种', 'currency']], customer: ['fCustomer', ['客户名称', '客户', 'customer']], contract: ['fContract', ['合同号', '合同编号', 'contract']], pay: ['fPay', ['付款方式', '付款条件', 'payment']], term: ['fTerm', ['交付方式', '贸易术语', '价格条款', 'incoterm', 'price term']] } },
-  order: { label: 'gOrder', p: 'gOrderP', fields: { orderNo: ['fOrderNo', ['订单编号', '订单号', 'order no', 'order']], customer: ['fCustomer', ['客户名称', '客户', 'customer']], contract: ['fContract', ['合同号', '合同编号', 'contract']], pay: ['fPay', ['付款方式', '付款条件', 'payment']], term: ['fTerm', ['交付方式', '贸易术语', '价格条款', 'incoterm', 'price term']], cur: ['fCur', ['币种', 'currency']] } },
-  cust: { label: 'gCust', p: 'gCustP', fields: { name: ['fName', ['客户名称', '客户全称', '客户', 'customer', 'name']], addr: ['fAddr', ['地址', 'address']], vat: ['fVat', ['vat', '税号', 'tax']], reg: ['fReg', ['注册号', '商业注册', 'registration', 'cr']], contact: ['fContact', ['联系人', 'contact']], email: ['fEmail', ['邮箱', 'email', 'e-mail']], tel: ['fTel', ['电话', 'tel', 'phone', 'mobile']] } }
+  detail: { label: 'gDetail', p: 'gDetailP', fields: {
+    orderNo: ['fOrderNo', ['订单编号', '订单号', 'order no', 'order number']], batch: ['fBatch', ['批次', 'batch']],
+    spec: ['fSpec', ['型号', '规格', '产品', 'specification', 'model']], qty: ['fQty', ['数量', 'qty', 'quantity']], price: ['fPrice', ['单价', 'unit price', 'price']],
+    unit: ['fUnit', ['单位', 'unit']], orderCur: ['fOrderCur', ['order currency', '订单币种']], payCur: ['fPayCur', ['payment currency', '回款币种', '付款币种']],
+    customer: ['fCustomer', ['客户名称', '客户', 'customer']], contract: ['fContract', ['合同号', '合同编号', 'contract']], pay: ['fPay', ['付款方式', '付款条件', 'payment term', 'payment method']], term: ['fTerm', ['交付方式', '贸易术语', '价格条款', 'incoterm', 'price term', 'delivery term']] } },
+  order: { label: 'gOrder', p: 'gOrderP', fields: {
+    orderNo: ['fOrderNo', ['订单编号', '订单号', 'order no', 'order number']], customer: ['fCustomer', ['客户名称', '客户', 'customer']], contract: ['fContract', ['合同号', '合同编号', 'contract']],
+    pay: ['fPay', ['付款方式', '付款条件', 'payment term', 'payment method']], term: ['fTerm', ['交付方式', '贸易术语', '价格条款', 'incoterm', 'price term', 'delivery term']],
+    orderCur: ['fOrderCur', ['order currency', '订单币种']], payCur: ['fPayCur', ['payment currency', '回款币种', '付款币种']] } },
+  cust: { label: 'gCust', p: 'gCustP', fields: { name: ['fName', ['客户名称', '客户全称', '客户', 'customer', 'name']], addr: ['fAddr', ['地址', 'address']], vat: ['fVat', ['vat', '税号', 'tax']], reg: ['fReg', ['注册号', '商业注册', 'registration']], contact: ['fContact', ['联系人', 'contact']], email: ['fEmail', ['邮箱', 'email', 'e-mail']], tel: ['fTel', ['电话', 'tel', 'phone', 'mobile']] } },
+  rate: { label: 'gRate', p: 'gRateP', fields: { date: ['fDate', ['日期', 'date', '时间']], pair: ['fPair', ['币种对', '货币对', 'pair', 'currency pair']], from: ['fFrom', ['原币', '基础币', 'from', 'base']], to: ['fTo', ['目标币', '报价币', 'to', 'quote']], rate: ['fRateV', ['汇率', 'rate', '中间价']] } }
 };
+const TABLE_GUESS = { order: /订单|order/i, cust: /客户|customer|client/i, rate: /ex\s*rate|汇率|exchange/i };
 let cfg = null, tableMetas = [];
 function guessField(metas, keys, used) {
-  const ns = metas.map((m) => ({ id: m.id, n: String(m.name).toLowerCase() }));
+  const ns = metas.map((m) => ({ id: m.id, n: String(m.name).toLowerCase().replace(/^\s*\d+\s*[-_.、]\s*/, '') }));
   for (const k of keys) { const f = ns.find((x) => x.n === k.toLowerCase() && !used.has(x.id)); if (f) return f.id; }
   for (const k of keys) { const f = ns.find((x) => x.n.includes(k.toLowerCase()) && !used.has(x.id)); if (f) return f.id; }
   return '';
 }
+async function fieldMetas(tid) { try { return await (await BT.base.getTableById(tid)).getFieldMetaList(); } catch (e) { return []; } }
+async function guessGroup(c, g, onlyMissing) {
+  if (!c[g].table) return;
+  const metas = await fieldMetas(c[g].table);
+  const used = new Set(Object.values(c[g].f).filter(Boolean));
+  for (const [k, [, keys]] of Object.entries(MAP_DEF[g].fields)) {
+    if (onlyMissing && c[g].f[k] !== undefined) continue;
+    if (g === 'detail' && ['customer', 'contract', 'pay', 'term'].includes(k) && c.order.table) { if (c[g].f[k] === undefined) c[g].f[k] = ''; continue; }
+    if (g === 'rate' && k === 'rate') { // a "rate" value column only for long-format tables
+      const id = guessField(metas.filter((m) => !/[A-Z]{3}/.test(String(m.name).toUpperCase().replace(/RATE|DATE/g, ''))), keys, used);
+      c[g].f[k] = id; if (id) used.add(id); continue;
+    }
+    const id = guessField(metas, keys, used); c[g].f[k] = id; if (id) used.add(id);
+  }
+}
+const guessTable = (re, not) => (tableMetas.find((m) => re.test(m.name) && !not.includes(m.id) && m.name !== HIST_NAME) || {}).id || '';
 async function autoConfig() {
-  const c = { detail: { table: '', view: '', f: {} }, order: { table: '', f: {} }, cust: { table: '', f: {} } };
+  const c = { detail: { table: '', view: '', f: {} }, order: { table: '', f: {} }, cust: { table: '', f: {} }, rate: { table: '', f: {} } };
   const has = (id) => tableMetas.some((m) => m.id === id);
   c.detail.table = has(DEFAULT_DETAIL.table) ? DEFAULT_DETAIL.table : (tableMetas[0] || {}).id || '';
   c.detail.view = c.detail.table === DEFAULT_DETAIL.table ? DEFAULT_DETAIL.view : '';
-  const nm = (re) => (tableMetas.find((m) => re.test(m.name) && m.id !== c.detail.table && m.name !== HIST_NAME) || {}).id || '';
-  c.order.table = nm(/订单|order/i);
-  c.cust.table = nm(/客户|customer|client/i);
-  for (const g of ['detail', 'order', 'cust']) {
-    if (!c[g].table) continue;
-    const metas = await (await BT.base.getTableById(c[g].table)).getFieldMetaList();
-    const used = new Set();
-    for (const [k, [, keys]] of Object.entries(MAP_DEF[g].fields)) {
-      if (g === 'detail' && ['customer', 'contract', 'pay', 'term'].includes(k) && c.order.table) continue;
-      const id = guessField(metas, keys, used); if (id) { used.add(id); c[g].f[k] = id; }
-    }
+  c.rate.table = guessTable(TABLE_GUESS.rate, [c.detail.table]);
+  c.order.table = guessTable(TABLE_GUESS.order, [c.detail.table, c.rate.table]);
+  c.cust.table = guessTable(TABLE_GUESS.cust, [c.detail.table, c.rate.table, c.order.table]);
+  for (const g of ['order', 'detail', 'cust', 'rate']) await guessGroup(c, g, false);
+  return c;
+}
+async function upgradeCfg(c) { // add groups/fields introduced in later versions
+  let changed = false;
+  for (const g of Object.keys(MAP_DEF)) if (!c[g]) { c[g] = { table: '', f: {} }; changed = true; }
+  for (const g of ['detail', 'order']) if (c[g].f && 'cur' in c[g].f) { delete c[g].f.cur; changed = true; }
+  if (!c.rate.table && !c.rate._checked) { c.rate.table = guessTable(TABLE_GUESS.rate, [c.detail.table, c.order.table, c.cust.table]); c.rate._checked = 1; changed = true; }
+  for (const g of Object.keys(MAP_DEF)) {
+    const missing = c[g].table && Object.keys(MAP_DEF[g].fields).some((k) => c[g].f[k] === undefined);
+    if (missing) { await guessGroup(c, g, true); changed = true; }
   }
+  if (changed) await saveCfg(c);
   return c;
 }
 async function loadCfg() {
@@ -2666,50 +2758,111 @@ async function saveCfg(c) {
 }
 
 /* ============ data ============ */
-let DATA = LS.get('data', null); // {fetchedAt, details:[], orders:{}, customers:[]}
+let DATA = LS.get('data', null); // {fetchedAt, details:[], orders:{}, customers:[], rates:[]}
 function normCur(s) {
-  const x = String(s || '').toUpperCase();
+  const x = String(s || '').toUpperCase().trim();
   if (!x) return null;
   if (/USD|\$|美元|美金/.test(x)) return ['USD'];
   if (/EUR|€|欧元/.test(x)) return ['EUR'];
-  if (/EGP|E£|LE\b|埃镑|埃及镑/.test(x)) return ['EGP'];
+  if (/EGP|E£|\bLE\b|埃镑|埃及镑/.test(x)) return ['EGP'];
   if (/CNY|RMB|¥|人民币/.test(x)) return ['CNY'];
   return ['Others', x];
 }
+const ISO = ['USD', 'EUR', 'EGP', 'CNY', 'RMB', 'GBP', 'SAR', 'AED', 'JPY', 'CHF', 'KWD', 'QAR', 'LYD', 'SDG', 'HKD', 'CAD', 'AUD', 'TRY', 'RON', 'BHD', 'OMR', 'JOD', 'MAD', 'TND', 'DZD', 'ZAR', 'INR', 'RUB', 'SGD'];
+const CN_CUR = { '美元': 'USD', '美金': 'USD', '欧元': 'EUR', '埃镑': 'EGP', '埃及镑': 'EGP', '人民币': 'CNY', '英镑': 'GBP', '沙特里亚尔': 'SAR', '迪拉姆': 'AED' };
+function curCodes(str) {
+  let s = String(str || '');
+  for (const [k, v] of Object.entries(CN_CUR)) s = s.split(k).join(' ' + v + ' ');
+  const out = (s.toUpperCase().match(/[A-Z]{3}/g) || []).filter((c) => ISO.includes(c)).map((c) => c === 'RMB' ? 'CNY' : c);
+  return [...new Set(out)];
+}
+function normDate(s) {
+  if (s == null || s === '') return '';
+  if (typeof s === 'number' || /^\d{11,13}$/.test(String(s))) { const d = new Date(Number(s)); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
+  const m = String(s).match(/(\d{4})\D{1,3}(\d{1,2})\D{1,3}(\d{1,2})/);
+  if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+  const d = new Date(s); if (!isNaN(d)) return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  return '';
+}
+async function readRates(rc) {
+  const out = [];
+  const rows = await readTable(rc.table);
+  const f = rc.f || {};
+  const metas = await fieldMetas(rc.table);
+  const longMode = !!f.rate;
+  for (const r of rows) {
+    const d = normDate(f.date ? r[f.date] : '');
+    if (!d) continue;
+    if (longMode) {
+      const v = num(r[f.rate]); if (v == null || !v) continue;
+      let a = f.from ? curCodes(r[f.from])[0] : null, b = f.to ? curCodes(r[f.to])[0] : null;
+      if (f.pair) { const cs = curCodes(r[f.pair]); a = a || cs[0]; b = b || cs[1]; }
+      if (a && !b) b = 'EGP';
+      if (a && b && a !== b) out.push({ d, a, b, r: v });
+    } else {
+      for (const m of metas) {
+        if (m.id === f.date) continue;
+        const cs = curCodes(m.name); const v = num(r[m.id]);
+        if (!cs.length || v == null || !v) continue;
+        const a = cs[0], b = cs[1] || 'EGP';
+        if (a !== b) out.push({ d, a, b, r: v });
+      }
+    }
+  }
+  return out;
+}
+/** 1 oc = ? pc, from rates on the latest date <= isoDate */
+function rateFor(oc, pc, isoDate) {
+  if (oc === pc) return { r: 1, d: isoDate, exact: true };
+  const rs = (DATA && DATA.rates) || []; if (!rs.length) return null;
+  const dates = [...new Set(rs.map((x) => x.d))].sort();
+  const cands = dates.filter((d) => d <= isoDate).reverse().concat(dates.filter((d) => d > isoDate));
+  for (const d of cands) {
+    const g = {};
+    rs.filter((x) => x.d === d).forEach((x) => { (g[x.a] = g[x.a] || []).push([x.b, x.r]); (g[x.b] = g[x.b] || []).push([x.a, 1 / x.r]); });
+    if (!g[oc]) continue;
+    const seen = { [oc]: 1 }, q = [oc];
+    while (q.length) {
+      const c = q.shift();
+      for (const [n, r] of g[c] || []) if (seen[n] === undefined) { seen[n] = seen[c] * r; q.push(n); }
+    }
+    if (seen[pc] !== undefined) return { r: Math.round(seen[pc] * 1e6) / 1e6, d, exact: d === isoDate };
+  }
+  return null;
+}
 async function fetchAll() {
-  const c = cfg; const res = { fetchedAt: Date.now(), details: [], orders: {}, customers: [] };
+  const c = cfg; const res = { fetchedAt: Date.now(), details: [], orders: {}, customers: [], rates: [] };
   const d = c.detail;
   const rows = await readTable(d.table, d.view || undefined);
   let prevO = '', prevB = '';
+  const OKEYS = ['customer', 'contract', 'pay', 'term', 'orderCur', 'payCur'];
   for (const r of rows) {
     const g = (k) => d.f[k] ? (r[d.f[k]] || '') : '';
     let o = g('orderNo'), b = g('batch');
     if (!o) { o = prevO; if (!b) b = prevB; }
     prevO = o; prevB = b;
     const spec = g('spec'), qty = num(g('qty')), price = num(g('price'));
+    if (o && !res.orders[o]) res.orders[o] = {};
+    if (o) { const od = res.orders[o]; for (const k of OKEYS) { const v = g(k); if (v && !od[k]) od[k] = v; } }
     if (!o || (!spec && qty == null)) continue;
-    res.details.push({ o, b, spec, qty, price, unit: g('unit'), cur: g('cur') });
-    if (!res.orders[o]) res.orders[o] = {};
-    const od = res.orders[o];
-    for (const k of ['customer', 'contract', 'pay', 'term', 'cur']) { const v = g(k); if (v && !od[k]) od[k] = v; }
+    res.details.push({ o, b, spec, qty, price, unit: g('unit') });
   }
   if (c.order.table && c.order.f.orderNo) {
-    const ors = await readTable(c.order.table);
-    for (const r of ors) {
+    for (const r of await readTable(c.order.table)) {
       const g = (k) => c.order.f[k] ? (r[c.order.f[k]] || '') : '';
       const o = g('orderNo'); if (!o) continue;
       const od = res.orders[o] || (res.orders[o] = {});
-      for (const k of ['customer', 'contract', 'pay', 'term', 'cur']) { const v = g(k); if (v) od[k] = v; }
+      for (const k of OKEYS) { const v = g(k); if (v) od[k] = v; }
     }
   }
   if (c.cust.table && c.cust.f.name) {
-    const cs = await readTable(c.cust.table);
-    for (const r of cs) {
+    for (const r of await readTable(c.cust.table)) {
       const g = (k) => c.cust.f[k] ? (r[c.cust.f[k]] || '') : '';
       if (!g('name')) continue;
       res.customers.push({ name: g('name'), address: g('addr'), vat: g('vat'), reg: g('reg'), contact: g('contact'), email: g('email'), tel: g('tel') });
     }
   }
+  if (c.rate && c.rate.table) { try { res.rates = await readRates(c.rate); } catch (e) { console.warn('rates', e); } }
   return res;
 }
 async function doRefresh() {
@@ -2719,7 +2872,7 @@ async function doRefresh() {
     if (!cfg) { await saveCfg(await autoConfig()); }
     DATA = await fetchAll(); LS.set('data', DATA);
     try { await BT.bridge.setData('pi_data', DATA); } catch (e) {}
-    toast(t('fetched', DATA.details.length)); renderStamp(); onOrderChanged(true);
+    toast(t('fetched', DATA.details.length, DATA.rates.length)); renderStamp(); onOrderChanged(0, true);
   } catch (e) { console.error(e); toast(t('fetchFail') + (e && e.message || e), 5000); }
   finally { btn.disabled = false; $('#refIco').classList.remove('spin'); }
 }
@@ -2733,37 +2886,51 @@ function renderStamp() {
 /* ============ form state ============ */
 const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const OVR_FIELDS = [['customer', 'name'], ['address', 'address'], ['vat', 'vat'], ['reg', 'reg'], ['contact', 'contact'], ['email', 'email'], ['tel', 'tel'], ['contractNo', 'contractNo'], ['paymentTerms', 'paymentTerms'], ['priceTerm', 'priceTerm'], ['loadingPlace', 'loadingPlace'], ['dischargePlace', 'dischargePlace'], ['deliveryTime', 'deliveryTime'], ['unit', 'unit']];
-let F = LS.get('draft', null) || { orderNo: '', batch: '', piNo: '', date: today(), orderCur: 'USD', orderCurOther: '', payCur: 'USD', payCurOther: '', rate: '', advance: 100, ovr: {} };
-F.ovr = F.ovr || {};
+const BANK_FIELDS = [['bName', 'name'], ['bBank', 'bank'], ['bSwift', 'swift'], ['bIban', 'iban'], ['bAcct', 'acct']];
+function blankForm() { return { orders: [{ no: '', batch: '' }, { no: '', batch: '' }, { no: '', batch: '' }], slots: 1, piNo: '', date: today(), orderCur: 'USD', orderCurOther: '', payCur: 'USD', payCurOther: '', rate: '', rateManual: false, advance: 100, ovr: {}, bank: {} }; }
+function normForm(f) {
+  const b = blankForm(); f = Object.assign(b, f || {});
+  if (f.orderNo !== undefined) { f.orders[0] = { no: f.orderNo || '', batch: f.batch || '' }; delete f.orderNo; delete f.batch; }
+  while (f.orders.length < 3) f.orders.push({ no: '', batch: '' });
+  f.ovr = f.ovr || {}; f.bank = f.bank || {}; f.slots = Math.min(3, Math.max(1, f.slots || 1));
+  return f;
+}
+let F = normForm(LS.get('draft', null));
 let frozen = null; // when restoring a version: frozen data snapshot (items, auto values)
 
+const activeOrders = () => F.orders.slice(0, F.slots).filter((o) => o.no);
+const primaryOrder = () => (activeOrders()[0] || {}).no || '';
+function findCustomer(name) {
+  if (!DATA || !name) return null;
+  const n = name.trim().toLowerCase();
+  return DATA.customers.find((c) => c.name.trim().toLowerCase() === n) || DATA.customers.find((c) => c.name.toLowerCase().includes(n) || n.includes(c.name.toLowerCase())) || null;
+}
 function autoValues() {
-  // values derived from ledger for current order/batch
-  const o = F.orderNo; const od = (DATA && DATA.orders[o]) || {};
+  const od = (DATA && DATA.orders[primaryOrder()]) || {};
   const cname = od.customer || '';
-  let cust = null;
-  if (DATA && cname) {
-    const n = cname.trim().toLowerCase();
-    cust = DATA.customers.find((c) => c.name.trim().toLowerCase() === n) || DATA.customers.find((c) => c.name.toLowerCase().includes(n) || n.includes(c.name.toLowerCase()));
-  }
+  const cust = findCustomer(cname);
+  const contracts = [...new Set(activeOrders().map((o) => ((DATA && DATA.orders[o.no]) || {}).contract).filter(Boolean))];
   return {
     name: cname, address: cust ? cust.address : '', vat: cust ? cust.vat : '', reg: cust ? cust.reg : '', contact: cust ? cust.contact : '', email: cust ? cust.email : '', tel: cust ? cust.tel : '',
-    contractNo: od.contract || '', paymentTerms: od.pay || '', priceTerm: od.term || '', loadingPlace: 'Sokhna Factory', dischargePlace: '/', deliveryTime: '/', unit: 'KM', cur: od.cur || ''
+    contractNo: contracts.join(', '), paymentTerms: od.pay || '', priceTerm: od.term || '', loadingPlace: 'Sokhna Factory', dischargePlace: '/', deliveryTime: '/', unit: 'KM',
+    orderCur: od.orderCur || '', payCur: od.payCur || ''
   };
 }
-function currentItems() {
-  if (frozen) return frozen.items;
-  if (!DATA || !F.orderNo) return [];
-  return DATA.details.filter((d) => d.o === F.orderNo && (F.batch === '__ALL__' || d.b === F.batch))
-    .map((d) => ({ spec: d.spec, qty: d.qty, price: d.price, unit: d.unit || '' }));
+function itemsOf(o) {
+  if (!DATA || !o.no) return [];
+  return DATA.details.filter((d) => d.o === o.no && (o.batch === '__ALL__' || d.b === o.batch)).map((d) => ({ spec: d.spec, qty: d.qty, price: d.price, unit: d.unit || '' }));
 }
+function currentItems() { return frozen ? frozen.items : activeOrders().flatMap(itemsOf); }
+function bankAuto() { const pc = PICore.curCode(F.payCur, F.payCurOther); const b = PICore.BANKS[pc] || {}; return { name: 'Hengtong Optic-Electric Egypt Co., S.A.E', bank: b.bank || '', swift: b.swift || '', iban: b.iban || '', acct: b.acct || '' }; }
 function buildInv() {
   const a = frozen ? frozen.auto : autoValues();
   const pick = (k) => (F.ovr[k] !== undefined && F.ovr[k] !== '') ? F.ovr[k] : (a[k] || '');
+  const ao = activeOrders();
+  const batchLbl = (b) => b === '__ALL__' ? 'ALL' : (b || '');
   return {
-    date: F.date, orderNo: F.orderNo, batch: F.batch === '__ALL__' ? 'ALL' : F.batch, piNo: F.piNo,
+    date: F.date, orderNos: ao.map((o) => o.no), orderNo: ao.map((o) => o.no).join(', '), batch: ao.map((o) => batchLbl(o.batch)).filter(Boolean).join('+'), piNo: F.piNo,
     orderCur: F.orderCur, orderCurOther: F.orderCurOther, payCur: F.payCur, payCurOther: F.payCurOther,
-    rate: F.rate, advance: F.advance,
+    rate: F.rate, advance: F.advance, bank: { ...F.bank },
     to: { name: pick('name'), address: pick('address'), vat: pick('vat'), reg: pick('reg'), contact: pick('contact'), email: pick('email'), tel: pick('tel') },
     contractNo: pick('contractNo'), paymentTerms: pick('paymentTerms'), priceTerm: pick('priceTerm'),
     loadingPlace: pick('loadingPlace'), dischargePlace: pick('dischargePlace'), deliveryTime: pick('deliveryTime'), unit: pick('unit') || 'KM',
@@ -2795,112 +2962,156 @@ function setupTypeahead(input, list, source, onPick) {
   });
   list.addEventListener('mousedown', (e) => { const el = e.target.closest('.ta-item'); if (el) { e.preventDefault(); onPick(items[+el.dataset.i].v); list.classList.remove('show'); input.blur(); } });
 }
-function buildOvrGrid() {
-  const g = $('#ovrGrid');
-  g.innerHTML = OVR_FIELDS.map(([k, key]) => `<div class="f"><label>${esc(t(k))}<span class="tagx" id="tag_${key}"></span></label><input class="inp" id="ov_${key}" autocomplete="off">${key === 'name' ? '<div class="ta-list" id="taCust"></div>' : ''}</div>`).join('');
-  OVR_FIELDS.forEach(([, key]) => {
-    const el = $('#ov_' + key);
-    el.value = F.ovr[key] || '';
-    el.addEventListener('input', () => { F.ovr[key] = el.value; saveDraft(); refreshOvrHints(); schedule(); });
+function ovrInputs(gridSel, fields, store, autoFn) {
+  const g = $(gridSel);
+  g.innerHTML = fields.map(([k, key]) => `<div class="f"><label>${esc(t(k))}<span id="tag_${gridSel.slice(1)}_${key}"></span></label><input class="inp" id="ov_${gridSel.slice(1)}_${key}" autocomplete="off">${key === 'name' && gridSel === '#ovrGrid' ? '<div class="ta-list" id="taCust"></div>' : ''}</div>`).join('');
+  fields.forEach(([, key]) => {
+    const el = $(`#ov_${gridSel.slice(1)}_${key}`);
+    el.value = store()[key] || '';
+    el.addEventListener('input', () => { store()[key] = el.value; saveDraft(); refreshOvrHints(); schedule(); });
   });
-  setupTypeahead($('#ov_name'), $('#taCust'), () => (DATA ? DATA.customers : []).map((c) => ({ v: c.name, s: c.address })), (v) => {
-    // choosing a customer from master fills all customer overrides
+}
+function buildOvrGrid() {
+  ovrInputs('#ovrGrid', OVR_FIELDS, () => F.ovr);
+  ovrInputs('#bankGrid', BANK_FIELDS, () => F.bank);
+  setupTypeahead($('#ov_ovrGrid_name'), $('#taCust'), () => (DATA ? DATA.customers : []).map((c) => ({ v: c.name, s: c.address })), (v) => {
     const c = DATA.customers.find((x) => x.name === v);
     F.ovr.name = v;
     if (c) Object.assign(F.ovr, { address: c.address, vat: c.vat, reg: c.reg, contact: c.contact, email: c.email, tel: c.tel });
-    OVR_FIELDS.forEach(([, key]) => { $('#ov_' + key).value = F.ovr[key] || ''; });
-    saveDraft(); refreshOvrHints(); schedule();
+    syncOvr(); saveDraft(); refreshOvrHints(); schedule();
   });
   refreshOvrHints();
 }
+function syncOvr() {
+  OVR_FIELDS.forEach(([, key]) => { const el = $('#ov_ovrGrid_' + key); if (el) el.value = F.ovr[key] || ''; });
+  BANK_FIELDS.forEach(([, key]) => { const el = $('#ov_bankGrid_' + key); if (el) el.value = F.bank[key] || ''; });
+}
 function refreshOvrHints() {
-  const a = frozen ? frozen.auto : autoValues();
-  OVR_FIELDS.forEach(([, key]) => {
-    const el = $('#ov_' + key), tag = $('#tag_' + key); if (!el) return;
-    el.placeholder = a[key] ? a[key] : '/';
-    const o = F.ovr[key];
-    tag.className = o ? 'ovr-tag' : (a[key] ? 'auto-tag' : '');
-    tag.textContent = o ? t('ovr') : (a[key] ? t('auto') : '');
-  });
+  const a = frozen ? frozen.auto : autoValues(), b = bankAuto();
+  const one = (grid, key, autoV, o) => {
+    const el = $(`#ov_${grid}_${key}`), tag = $(`#tag_${grid}_${key}`); if (!el) return;
+    el.placeholder = autoV ? autoV : '/';
+    tag.className = o ? 'ovr-tag' : (autoV ? 'auto-tag' : '');
+    tag.textContent = o ? t('ovr') : (autoV ? t('auto') : '');
+  };
+  OVR_FIELDS.forEach(([, key]) => one('ovrGrid', key, a[key], F.ovr[key]));
+  BANK_FIELDS.forEach(([, key]) => one('bankGrid', key, b[key], F.bank[key]));
 }
 function syncInputs() {
-  $('#iOrder').value = F.orderNo; $('#iPi').value = F.piNo; $('#iDate').value = F.date;
+  for (let i = 0; i < 3; i++) $('#iOrder' + i).value = F.orders[i].no;
+  document.querySelectorAll('.oslot').forEach((el) => el.classList.toggle('hidden', +el.dataset.k >= F.slots));
+  $('#addOrder').classList.toggle('hidden', F.slots >= 3);
+  $('#iPi').value = F.piNo; $('#iDate').value = F.date;
   fillSelect($('#iOC'), CURS.map((c) => [c, c]), F.orderCur);
   fillSelect($('#iPC'), CURS.map((c) => [c, c]), F.payCur);
   $('#iOCo').value = F.orderCurOther || ''; $('#iPCo').value = F.payCurOther || '';
-  $('#iAdv').value = F.advance; $('#iRate').value = F.rate;
-  buildBatch(); updateRateUI();
-  OVR_FIELDS.forEach(([, key]) => { const el = $('#ov_' + key); if (el) el.value = F.ovr[key] || ''; });
-  refreshOvrHints();
+  $('#iAdv').value = F.advance;
+  for (let i = 0; i < 3; i++) buildBatch(i);
+  updateRateUI(); syncOvr(); refreshOvrHints();
 }
-function buildBatch() {
-  const sel = $('#iBatch'); const ho = $('#hOrder');
-  if (frozen) { fillSelect(sel, [[F.batch, F.batch === '__ALL__' ? t('allBatch') : (F.batch || t('noBatch'))]], F.batch); ho.textContent = t('matched', frozen.items.length); ho.className = 'hint'; return; }
-  if (!F.orderNo || !DATA) { fillSelect(sel, [['', '—']], ''); ho.textContent = ''; return; }
-  const ds = DATA.details.filter((d) => d.o === F.orderNo);
+function buildBatch(i) {
+  const sel = $('#iBatch' + i); const ho = $('#hOrder' + i); const o = F.orders[i];
+  ho.className = 'hint';
+  if (frozen) { fillSelect(sel, [[o.batch, o.batch === '__ALL__' ? t('allBatch') : (o.batch || (o.no ? t('noBatch') : '—'))]], o.batch); ho.textContent = i === 0 ? t('matched', frozen.items.length) : ''; return; }
+  if (!o.no || !DATA) { fillSelect(sel, [['', '—']], ''); ho.textContent = ''; return; }
+  const ds = DATA.details.filter((d) => d.o === o.no);
   if (!ds.length) { fillSelect(sel, [['', '—']], ''); ho.textContent = t('notFound'); ho.className = 'hint danger'; return; }
   const bs = [...new Set(ds.map((d) => d.b))];
   const opts = bs.map((b) => [b, b || t('noBatch')]);
   if (bs.length > 1) opts.push(['__ALL__', t('allBatch')]);
-  if (!bs.includes(F.batch) && F.batch !== '__ALL__') F.batch = bs[0];
-  fillSelect(sel, opts, F.batch);
-  const n = currentItems().length; ho.textContent = t('matched', n); ho.className = 'hint';
+  if (!bs.includes(o.batch) && o.batch !== '__ALL__') o.batch = bs[0];
+  fillSelect(sel, opts, o.batch);
+  let msg = t('matched', itemsOf(o).length);
+  if (i > 0) {
+    const c0 = ((DATA.orders[primaryOrder()] || {}).customer || '').trim().toLowerCase(), ci = ((DATA.orders[o.no] || {}).customer || '').trim().toLowerCase();
+    if (c0 && ci && c0 !== ci) { msg += ' · ' + t('diffCust'); ho.className = 'hint danger'; }
+  }
+  ho.textContent = msg;
 }
 function updateRateUI() {
   const oc = PICore.curCode(F.orderCur, F.orderCurOther), pc = PICore.curCode(F.payCur, F.payCurOther);
   $('#iOCo').classList.toggle('hidden', F.orderCur !== 'Others');
   $('#iPCo').classList.toggle('hidden', F.payCur !== 'Others');
-  const r = $('#iRate'), h = $('#hRate');
-  if (oc === pc) { r.value = 1; r.disabled = true; r.classList.remove('warn'); h.textContent = t('rateSame'); h.className = 'hint'; $('#nbeLink').classList.add('hidden'); }
-  else {
-    r.disabled = false; r.value = F.rate; r.classList.add('warn');
-    const other = F.orderCur === 'Others' || F.payCur === 'Others';
-    h.textContent = other ? t('rateManual') : t('rateDiff'); h.className = 'hint danger';
-    $('#nbeLink').classList.toggle('hidden', other);
+  const r = $('#iRate'), h = $('#hRate'), ra = $('#rateAuto');
+  ra.classList.add('hidden');
+  if (oc === pc) { F.rate = 1; r.value = 1; r.disabled = true; r.classList.remove('warn'); h.textContent = t('rateSame'); h.className = 'hint'; $('#nbeLink').classList.add('hidden'); return; }
+  r.disabled = false; r.classList.add('warn'); h.className = 'hint danger';
+  $('#nbeLink').classList.remove('hidden');
+  const auto = rateFor(oc, pc, F.date || today());
+  if (!F.rateManual) {
+    if (auto) { F.rate = auto.r; h.textContent = t('rateAuto', oc, pc, auto.d, auto.r) + (auto.exact ? '' : ' · ' + t('rateNotToday')); }
+    else { F.rate = ''; h.textContent = t('rateNone'); }
+  } else {
+    h.textContent = t('rateManualSet'); if (auto) ra.classList.remove('hidden');
   }
+  r.value = F.rate;
 }
-function onOrderChanged(keepBatch) {
-  if (!keepBatch) F.batch = '';
-  if (!frozen) {
-    const a = autoValues(); const n = normCur(a.cur);
-    if (n && !keepBatch) { F.orderCur = n[0]; F.orderCurOther = n[1] || ''; F.payCur = F.orderCur; F.payCurOther = F.orderCurOther; }
-  }
+function applyOrderCurrencies() {
+  const a = autoValues();
+  const oc = normCur(a.orderCur), pc = normCur(a.payCur) || oc;
+  if (oc) { F.orderCur = oc[0]; F.orderCurOther = oc[1] || ''; }
+  if (pc) { F.payCur = pc[0]; F.payCurOther = pc[1] || ''; }
+  F.rateManual = false; F.bank = {};
+}
+function onOrderChanged(i, keepBatch) {
+  if (!keepBatch && F.orders[i]) F.orders[i].batch = '';
+  if (!frozen && i === 0 && !keepBatch) applyOrderCurrencies();
   saveDraft(); syncInputs(); schedule();
 }
 function bindInputs() {
-  setupTypeahead($('#iOrder'), $('#taOrder'), () => orderList().map((o) => ({ v: o, s: (DATA.orders[o] || {}).customer || '' })), (v) => {
-    frozen = null; F.orderNo = v; $('#iOrder').value = v; onOrderChanged(false);
-  });
-  $('#iOrder').addEventListener('change', () => {
-    const v = $('#iOrder').value.trim(); if (v === F.orderNo) return;
-    const exact = orderList().find((o) => o.toLowerCase() === v.toLowerCase());
-    frozen = null; F.orderNo = exact || v; onOrderChanged(false);
-  });
-  $('#iBatch').addEventListener('change', (e) => { F.batch = e.target.value; saveDraft(); buildBatch(); schedule(); });
+  for (let i = 0; i < 3; i++) {
+    const inp = $('#iOrder' + i);
+    setupTypeahead(inp, $('#taOrder' + i), () => {
+      const c0 = i > 0 ? ((DATA.orders[primaryOrder()] || {}).customer || '') : '';
+      const list = orderList().filter((o) => !F.orders.some((x, j) => j !== i && x.no === o)).map((o) => ({ v: o, s: (DATA.orders[o] || {}).customer || '' }));
+      return c0 ? list.sort((a, b) => (b.s === c0) - (a.s === c0)) : list;
+    }, (v) => { frozen = null; F.orders[i].no = v; inp.value = v; onOrderChanged(i, false); });
+    inp.addEventListener('change', () => {
+      const v = inp.value.trim(); if (v === F.orders[i].no) return;
+      const exact = orderList().find((o) => o.toLowerCase() === v.toLowerCase());
+      frozen = null; F.orders[i].no = exact || v; onOrderChanged(i, false);
+    });
+    $('#iBatch' + i).addEventListener('change', (e) => { F.orders[i].batch = e.target.value; saveDraft(); buildBatch(i); schedule(); });
+  }
+  $('#addOrder').addEventListener('click', () => { if (F.slots < 3) { F.slots++; saveDraft(); syncInputs(); setTimeout(() => $('#iOrder' + (F.slots - 1)).focus(), 50); } });
+  document.querySelectorAll('[data-rm]').forEach((b) => b.addEventListener('click', (e) => {
+    e.preventDefault(); const k = +b.dataset.rm;
+    F.orders.splice(k, 1); F.orders.push({ no: '', batch: '' }); F.slots = Math.max(1, F.slots - 1);
+    frozen = null; saveDraft(); syncInputs(); schedule();
+  }));
   $('#iPi').addEventListener('input', (e) => { F.piNo = e.target.value.trim(); saveDraft(); schedule(); });
-  $('#iDate').addEventListener('change', (e) => { F.date = e.target.value || today(); saveDraft(); schedule(); });
-  $('#iOC').addEventListener('change', (e) => { F.orderCur = e.target.value; saveDraft(); updateRateUI(); schedule(); });
-  $('#iPC').addEventListener('change', (e) => { F.payCur = e.target.value; saveDraft(); updateRateUI(); schedule(); });
-  $('#iOCo').addEventListener('input', (e) => { F.orderCurOther = e.target.value; saveDraft(); updateRateUI(); schedule(); });
-  $('#iPCo').addEventListener('input', (e) => { F.payCurOther = e.target.value; saveDraft(); updateRateUI(); schedule(); });
-  $('#iRate').addEventListener('input', (e) => { F.rate = e.target.value; saveDraft(); schedule(); });
+  $('#iDate').addEventListener('change', (e) => { F.date = e.target.value || today(); saveDraft(); updateRateUI(); schedule(); });
+  const curChange = () => { F.rateManual = false; saveDraft(); updateRateUI(); refreshOvrHints(); schedule(); };
+  $('#iOC').addEventListener('change', (e) => { F.orderCur = e.target.value; curChange(); });
+  $('#iPC').addEventListener('change', (e) => { F.payCur = e.target.value; F.bank = {}; syncOvr(); curChange(); });
+  $('#iOCo').addEventListener('input', (e) => { F.orderCurOther = e.target.value; curChange(); });
+  $('#iPCo').addEventListener('input', (e) => { F.payCurOther = e.target.value; F.bank = {}; syncOvr(); curChange(); });
+  $('#iRate').addEventListener('input', (e) => { F.rate = e.target.value; F.rateManual = true; $('#hRate').textContent = t('rateManualSet'); $('#rateAuto').classList.remove('hidden'); saveDraft(); schedule(); });
+  $('#rateAuto').addEventListener('click', () => { F.rateManual = false; saveDraft(); updateRateUI(); schedule(); });
   $('#iAdv').addEventListener('input', (e) => { F.advance = e.target.value; saveDraft(); schedule(); });
-  $('#discBtn').addEventListener('click', () => { $('#discBtn').classList.toggle('open'); $('#disc').classList.toggle('open'); });
+  $('#discBtn').addEventListener('click', () => { const o = !$('#disc').classList.contains('open'); $('#discBtn').classList.toggle('open', o); $('#disc').classList.toggle('open', o); LS.set('discOpen', o); });
+  if (LS.get('discOpen', false)) { $('#discBtn').classList.add('open'); $('#disc').classList.add('open'); }
 }
 
 /* ============ invoice rendering ============ */
 const LOGO = 'data:image/png;base64,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';
 function pageHeader(inv, c) {
   const to = inv.to, S = PICore.SELLER, d = (x) => esc(x && String(x).trim() ? x : '/');
+  const row = (l1, v1, l2, v2) => `<b>${l1}</b><div class="v1">${v1}</div><b class="l2">${l2}</b><div class="v2">${v2}</div>`;
   return `<div class="hd"><img src="${LOGO}" alt=""><div class="fc">${esc(FORM_CODE)}</div></div>
   <div class="co">${esc(S.name)}</div><div class="ti">PROFORMA&nbsp;&nbsp;&nbsp;INVOICE</div><div class="or">(ORIGINAL)</div>
-  <div class="parties">
-    <div class="kv"><b>TO:</b><div><b>${d(to.name)}</b></div><b>ADD:</b><div>${d(to.address)}</div><b>VAT No.:</b><div>${d(to.vat)}</div><b>Registration No.:</b><div>${d(to.reg)}</div><b>Contact:</b><div>${d(to.contact)}</div><b>Email:</b><div>${d(to.email)}</div><b>Tel:</b><div>${d(to.tel)}</div></div>
-    <div class="kv"><b>FROM:</b><div><b>${esc(S.name)}</b></div><b>ADD:</b><div>${esc(S.address)}</div><b>Tax NO.:</b><div>${esc(S.tax)}</div><b>Commercial Registration:</b><div>${esc(S.reg)}</div><b>Contact Person:</b><div>${esc(S.contact)}</div><b>Email:</b><div>${esc(S.email)}</div><b>Tel:</b><div>${esc(S.tel)}</div></div>
-  </div>
-  <div class="meta">
-    <div class="kv"><b>Contract No:</b><div>${d(inv.contractNo)}</div><b style="grid-column:1/3">Description of Goods: <span style="font-weight:400">Optical Fiber Cables</span></b></div>
-    <div class="kv"><b>Invoice No:</b><div>${esc(inv.piNo || '')}</div><b>Invoice Date:</b><div>${esc(c.dateText)}</div><b>Order. NO</b><div>${esc(inv.orderNo || '')}</div></div>
+  <div class="hgrid">
+    ${row('TO:', `<b>${d(to.name)}</b>`, 'FROM:', `<b>${esc(S.name)}</b>`)}
+    ${row('ADD:', d(to.address), 'ADD:', esc(S.address))}
+    ${row('VAT No.:', d(to.vat), 'Tax No.:', esc(S.tax))}
+    ${row('Reg. No.:', d(to.reg), 'C.R. No.:', esc(S.reg))}
+    ${row('Contact:', d(to.contact), 'Contact:', esc(S.contact))}
+    ${row('Email:', d(to.email), 'Email:', esc(S.email))}
+    ${row('Tel:', d(to.tel), 'Tel:', esc(S.tel))}
+    <div class="sp"></div>
+    ${row('Contract No.:', d(inv.contractNo), 'Invoice No.:', esc(inv.piNo || ''))}
+    ${row('Description:', 'Optical Fiber Cables', 'Invoice Date:', esc(c.dateText))}
+    ${row('', '', 'Order No.:', esc(inv.orderNo || ''))}
   </div>`;
 }
 const COLG = '<colgroup><col style="width:6%"><col style="width:29%"><col style="width:8%"><col style="width:13%"><col style="width:14%"><col style="width:16%"><col style="width:14%"></colgroup>';
@@ -2927,9 +3138,9 @@ function tailHtml(inv, c) {
     </div>
     <div class="bank"><h5>PAYMENT SHALL BE MADE TO THE FOLLOWING BANK ACCOUNT:</h5>
       <div class="bank-g">
-        <div class="kv"><b>Beneficiary Name:</b><div>Hengtong Optic-Electric Egypt Co., S.A.E</div></div><div></div>
-        <div class="kv"><b>Beneficiary Bank:</b><div>${esc(b.bank)}</div></div><div class="kv" style="grid-template-columns:90px 1fr"><b>SWIFT Code:</b><div>${esc(b.swift)}</div></div>
-        <div class="kv"><b>IBAN Number:</b><div>${esc(b.iban)}</div></div><div class="kv" style="grid-template-columns:90px 1fr"><b>Account No.:</b><div>${esc(b.acct)}</div></div>
+        <div class="kv"><b>Beneficiary Name:</b><div>${d(b.name)}</div></div><div></div>
+        <div class="kv"><b>Beneficiary Bank:</b><div>${d(b.bank)}</div></div><div class="kv" style="grid-template-columns:90px 1fr"><b>SWIFT Code:</b><div>${d(b.swift)}</div></div>
+        <div class="kv"><b>IBAN Number:</b><div>${d(b.iban)}</div></div><div class="kv" style="grid-template-columns:90px 1fr"><b>Account No.:</b><div>${d(b.acct)}</div></div>
       </div></div>
     <div class="sign">Hengtong Optic-Electric Egypt Co., SAE<br>AUTHORIZED SIGNATURE ____________________________</div>
   </div>`;
@@ -2950,7 +3161,6 @@ function renderInvoice(root, inv) {
     tb.insertAdjacentHTML('beforeend', itemRow(it));
     if (over(pg) && tb.rows.length > 1) { tb.lastElementChild.remove(); pg = newPage(root, inv, c); tb = pg.querySelector('tbody'); tb.insertAdjacentHTML('beforeend', itemRow(it)); }
   }
-  // totals, then tail (say total / terms / bank / signature)
   tb.insertAdjacentHTML('beforeend', totalRows(c));
   if (over(pg)) {
     tb.querySelectorAll('tr.tot').forEach((r) => r.remove());
@@ -2982,11 +3192,51 @@ function renderPreview() {
   const r = renderInvoice(pages, inv);
   $('#pageInfo').textContent = `${t('items', r.c.items.length)} · ${t('pages', r.pages)}`;
   fitPreview();
+  if ($('#zoomer').classList.contains('show')) { $('#zPages').innerHTML = pages.innerHTML; }
 }
 function fitPreview() {
   const outer = $('#previewOuter'), sc = $('#previewScale');
   if (!$('#pages .pg')) { sc.style.transform = 'none'; sc.style.width = 'auto'; sc.style.marginLeft = '0'; outer.style.height = 'auto'; return; }
   fitScale(outer, sc);
+}
+
+/* ============ zoom viewer ============ */
+const Z = { s: 1, x: 0, y: 0 };
+function zApply(anim) {
+  const cv = $('#zCanvas'); cv.classList.toggle('nt', !anim);
+  cv.style.transform = `translate(${Z.x}px,${Z.y}px) scale(${Z.s})`;
+  $('#zPct').textContent = Math.round(Z.s * 100) + '%';
+}
+function zFit() {
+  const st = $('#zStage'); const w = st.clientWidth, h = st.clientHeight;
+  Z.s = Math.max(0.2, Math.min(1.2, (w - 80) / 794));
+  Z.x = (w - 794 * Z.s) / 2; Z.y = 70; zApply(true);
+}
+function zAt(factor, cx, cy) {
+  const ns = Math.min(5, Math.max(0.15, Z.s * factor)); const k = ns / Z.s;
+  Z.x = cx - (cx - Z.x) * k; Z.y = cy - (cy - Z.y) * k; Z.s = ns; zApply(false);
+}
+function openZoom(src) {
+  if (!src.querySelector('.pg')) return;
+  $('#zPages').innerHTML = src.innerHTML; $('#zoomer').classList.add('show'); requestAnimationFrame(zFit);
+}
+function bindZoom() {
+  const st = $('#zStage');
+  $('#previewOuter').addEventListener('dblclick', () => openZoom($('#pages')));
+  $('#pvPages').addEventListener('dblclick', () => openZoom($('#pvPages')));
+  st.addEventListener('wheel', (e) => { e.preventDefault(); const r = st.getBoundingClientRect(); zAt(Math.exp(-e.deltaY * 0.0015), e.clientX - r.left, e.clientY - r.top); }, { passive: false });
+  let drag = null;
+  st.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, ox: Z.x, oy: Z.y }; st.classList.add('drag'); st.setPointerCapture(e.pointerId); });
+  st.addEventListener('pointermove', (e) => { if (!drag) return; Z.x = drag.ox + e.clientX - drag.x; Z.y = drag.oy + e.clientY - drag.y; zApply(false); });
+  const end = () => { drag = null; st.classList.remove('drag'); };
+  st.addEventListener('pointerup', end); st.addEventListener('pointercancel', end);
+  st.addEventListener('dblclick', (e) => { const r = st.getBoundingClientRect(); if (Z.s < 1.2) { zAt(1.8, e.clientX - r.left, e.clientY - r.top); zApply(true); } else zFit(); });
+  const mid = () => { const r = st.getBoundingClientRect(); return [r.width / 2, r.height / 2]; };
+  $('#zIn').addEventListener('click', () => { zAt(1.25, ...mid()); zApply(true); });
+  $('#zOut').addEventListener('click', () => { zAt(0.8, ...mid()); zApply(true); });
+  $('#zFit').addEventListener('click', zFit);
+  $('#zClose').addEventListener('click', () => $('#zoomer').classList.remove('show'));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') $('#zoomer').classList.remove('show'); });
 }
 
 /* ============ export ============ */
@@ -2995,7 +3245,7 @@ function b64ToBuf(b) { const s = atob(b); const u = new Uint8Array(s.length); fo
 const pad = (n) => String(n).padStart(2, '0');
 function stampNow(d = new Date()) { return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}${pad(d.getHours())}${pad(d.getMinutes())}`; }
 const safe = (s) => String(s || 'NA').replace(/[\\/:*?"<>|\s]+/g, '_');
-function baseName(inv, at) { return `${safe(inv.orderNo)}-${safe(inv.batch || 'NA')}-${safe(inv.piNo || 'NA')}-${at || stampNow()}`; }
+function baseName(inv, at) { return `${safe((inv.orderNos || [inv.orderNo]).join('+'))}-${safe(inv.batch || 'NA')}-${safe(inv.piNo || 'NA')}-${at || stampNow()}`; }
 async function makeXlsx(inv) {
   const wb = await PICore.buildWorkbook(ExcelJS, b64ToBuf(TEMPLATE_B64), inv);
   const buf = await wb.xlsx.writeBuffer();
@@ -3111,7 +3361,7 @@ function renderBox() {
 }
 function loadSnapshot(h, asCopy) {
   const s = h.snap;
-  F = JSON.parse(JSON.stringify(s.form)); F.ovr = F.ovr || {};
+  F = normForm(JSON.parse(JSON.stringify(s.form))); F.rateManual = true;
   frozen = { items: s.items, auto: s.auto };
   if (asCopy) { F.date = today(); }
   saveDraft(); syncInputs(); schedule(); closeAll();
@@ -3136,7 +3386,8 @@ async function renderSettings() {
   const viewsOf = async (tid) => { try { return tid ? await (await BT.base.getTableById(tid)).getViewMetaList() : []; } catch (e) { return []; } };
   async function draw() {
     let h = `<p class="hint" style="margin:0 0 16px;font-size:12.5px">${esc(t('mapTip'))}</p>`;
-    for (const g of ['detail', 'order', 'cust']) {
+    for (const g of ['detail', 'order', 'cust', 'rate']) {
+      if (!c[g]) c[g] = { table: '', f: {} };
       const def = MAP_DEF[g]; const fs = await fieldsOf(c[g].table);
       h += `<div class="map-group"><h4>${esc(t(def.label))}</h4><p>${esc(t(def.p))}</p>
         <div class="map-row"><span>${esc(t('table'))}</span><select class="inp" data-g="${g}" data-k="__table">${g === 'detail' ? '' : `<option value="">${esc(t('none'))}</option>`}${tableMetas.map((m) => `<option value="${m.id}" ${m.id === c[g].table ? 'selected' : ''}>${esc(m.name)}</option>`).join('')}</select></div>`;
@@ -3153,7 +3404,7 @@ async function renderSettings() {
     body.innerHTML = h;
     body.querySelectorAll('select').forEach((s) => s.addEventListener('change', async () => {
       const g = s.dataset.g, k = s.dataset.k;
-      if (k === '__table') { c[g].table = s.value; c[g].f = {}; if (g === 'detail') c.detail.view = ''; const fs = await fieldsOf(s.value); const used = new Set(); for (const [kk, [, keys]] of Object.entries(MAP_DEF[g].fields)) { const id = guessField(fs, keys, used); if (id) { used.add(id); c[g].f[kk] = id; } } await draw(); }
+      if (k === '__table') { c[g].table = s.value; c[g].f = {}; if (g === 'detail') c.detail.view = ''; await guessGroup(c, g, false); await draw(); }
       else if (k === '__view') c.detail.view = s.value;
       else c[g].f[k] = s.value;
     }));
@@ -3193,13 +3444,14 @@ function setupGate(onPass) {
 /* ============ boot ============ */
 async function boot() {
   applyLang(); applyTheme(); renderStamp();
-  buildOvrGrid(); bindInputs(); syncInputs(); renderPreview();
+  buildOvrGrid(); bindInputs(); bindZoom(); syncInputs(); renderPreview();
   inLark = await detectLark();
   if (!inLark) { const b = $('#envBanner'); b.textContent = t('notInLark'); b.classList.remove('hidden'); }
   else {
     try { tableMetas = await BT.base.getTableMetaList(); } catch (e) {}
     cfg = await loadCfg();
-    if (!DATA) { try { const shared = await BT.bridge.getData('pi_data'); if (shared && shared.details) { DATA = shared; LS.set('data', DATA); renderStamp(); onOrderChanged(true); } } catch (e) {} }
+    if (cfg) { try { cfg = await upgradeCfg(cfg); } catch (e) { console.warn(e); } }
+    if (!DATA) { try { const shared = await BT.bridge.getData('pi_data'); if (shared && shared.details) { DATA = shared; LS.set('data', DATA); renderStamp(); onOrderChanged(0, true); } } catch (e) {} }
     try { const th = await BT.bridge.getTheme(); if (th) { larkTheme = String(th).toLowerCase().includes('dark') ? 'dark' : 'light'; applyTheme(); } } catch (e) {}
     if (!cfg) { cfg = null; openEl($('#setSheet')); renderSettings(); }
   }
