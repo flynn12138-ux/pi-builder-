@@ -85,7 +85,10 @@ select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
 .link:hover{text-decoration:underline}
 .link.rm{color:var(--text-3);margin-left:6px;font-size:11px}
 .subhead{font-size:12px;font-weight:700;color:var(--text);margin:18px 0 0;letter-spacing:.01em}
-.oslot{animation:rise .5s var(--ease) both}
+.oslot{animation:rise .5s var(--ease)}
+.f:focus-within{z-index:40}
+.card{position:relative}
+.ta-list{z-index:50}
 #previewOuter{cursor:zoom-in}
 #zoomer{position:fixed;inset:0;z-index:80;background:rgba(20,20,22,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s}
@@ -271,6 +274,7 @@ select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
   <div class="hero reveal"><div class="eyebrow">Proforma Invoice · HTEG-CD-R-030</div><h2 data-i="heroTitle">填写信息，发票实时生成。</h2></div>
 
   <section class="card reveal d1" id="inputs">
+    <button class="link" id="btnClear" data-i="clearForm" style="position:absolute;right:20px;top:12px;z-index:2">清空</button>
     <div class="grid">
       <div class="f"><label><span data-i="orderNo">订单编号</span> 1</label>
         <input class="inp" id="iOrder0" data-ph="orderPh" autocomplete="off">
@@ -288,10 +292,11 @@ select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
         <input class="inp" id="iOrder2" data-ph="orderPh" autocomplete="off"><div class="ta-list" id="taOrder2"></div><div class="hint" id="hOrder2"></div></div>
       <div class="f oslot hidden" data-k="2"><label><span data-i="batch">批次</span> 3</label><select class="inp" id="iBatch2"></select><div class="hint"></div></div>
 
-      <div class="f"><label data-i="orderCur">订单币种</label>
-        <div class="ctl"><select class="inp" id="iOC"></select><input class="inp sm hidden" id="iOCo" placeholder="SAR"></div><div class="hint" id="hOC"></div></div>
-      <div class="f"><label data-i="payCur">回款币种</label>
-        <div class="ctl"><select class="inp" id="iPC"></select><input class="inp sm hidden" id="iPCo" placeholder="SAR"></div><div class="hint"></div></div>
+      <div class="f"><label><span data-i="orderCur">订单币种</span><span id="tagOC"></span></label>
+        <input class="inp" id="iOC" list="curList" autocomplete="off" spellcheck="false" style="text-transform:uppercase"><div class="hint" id="hOC"></div></div>
+      <div class="f"><label><span data-i="payCur">回款币种</span><span id="tagPC"></span></label>
+        <input class="inp" id="iPC" list="curList" autocomplete="off" spellcheck="false" style="text-transform:uppercase"><div class="hint" id="hPC"></div></div>
+      <datalist id="curList"><option value="USD"><option value="EUR"><option value="EGP"><option value="CNY"></datalist>
       <div class="f"><label data-i="rate">汇率</label>
         <div class="ctl"><input class="inp" id="iRate" type="number" step="any" inputmode="decimal"><a class="pill ghost" id="nbeLink" href="https://www.nbe.com.eg/NBE/E/#/EN/ExchangeRate" target="_blank" rel="noopener" style="height:40px;text-decoration:none">NBE</a></div>
         <div class="hint-row"><span class="hint" id="hRate"></span><button class="link hidden" id="rateAuto" data-i="rateAutoBtn">恢复自动</button></div></div>
@@ -317,6 +322,7 @@ select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
   <button class="pill primary" id="btnSave"><span data-i="save">保存</span></button>
   <button class="pill ghost" id="btnXlsx"><span data-i="exportXlsx">导出 Excel</span></button>
   <button class="pill ghost" id="btnPdf"><span data-i="exportPdf">导出 PDF</span></button>
+  <button class="pill ghost" id="btnBig" data-t="bigView" style="padding:0 12px"><svg width="15" height="15" viewBox="0 0 16 16"><path d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 </div>
 <button class="fab" id="btnBox" data-t="box"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3.5 8.5 5.6 4.3A1.5 1.5 0 0 1 7 3.5h10a1.5 1.5 0 0 1 1.4.8l2.1 4.2M3.5 8.5v10a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-10M3.5 8.5h17M9.5 12.5h5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="badge hidden" id="boxCount">0</span></button>
 
@@ -2570,7 +2576,7 @@ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<
 /* ============ i18n ============ */
 const I18N = {
   zh: {
-    addOrder: '+ 添加订单', diffCust: '客户与订单 1 不同', rateAutoBtn: '恢复自动', custTerms: '客户资料与条款', bankInfo: '收款银行（按回款币种自动匹配）', zoomTip: '双击放大 · 滚轮缩放', zFit: '适应',
+    addOrder: '+ 添加订单', srcOC: '已按台账「20-Order Currency」匹配', srcPC: '已按台账「29-Payment currency」匹配', missOC: '台账中该订单没有订单币种，请填写', missPC: '台账中该订单没有回款币种，请填写', curManual: '已手动修改', needCur: '请填写订单币种和回款币种', clearForm: '清空', cleared: '已清空，可开始新的形式发票', bigView: '大图预览', diffCust: '客户与订单 1 不同', rateAutoBtn: '恢复自动', custTerms: '客户资料与条款', bankInfo: '收款银行（按回款币种自动匹配）', zoomTip: '双击放大 · 滚轮缩放', zFit: '适应',
     rateAuto: (a, b, d, r) => `已自动带出 08-Ex Rate（${d}）：1 ${a} = ${r} ${b}，请核对`, rateNotToday: '当天无汇率，已用最近日期', rateNone: '汇率表中未找到该币种对，请手动填写', rateEmpty: '未读到 08-Ex Rate 汇率：请点「更新数据」，或在设置中检查汇率表字段', rateDiag: (n, d) => n ? `已读取 ${n} 条汇率，最新日期 ${d}` : '尚未读取到汇率数据（保存设置后会自动更新）', openWin: '新窗口打开', viewTitle: '形式发票预览', rateManualSet: '已手动修改汇率',
     bName: 'Beneficiary Name', bBank: 'Beneficiary Bank', bSwift: 'SWIFT Code', bIban: 'IBAN Number', bAcct: 'Account No.',
     gRate: '汇率表（08-Ex Rate）', gRateP: '按发票日期取当天汇率；若汇率按列存放（如 USD、EUR 各一列），只需选「日期」，其余留空。', fDate: '日期', fPair: '币种对', fFrom: '原币', fTo: '目标币', fRateV: '汇率值', fOrderCur: '订单币种', fPayCur: '回款币种',
@@ -2597,7 +2603,7 @@ const I18N = {
     dlBlocked: '若浏览器拦截下载，请到多维表格「' + HIST_NAME + '」中下载附件。', attachFail: '版本已保存，但附件上传失败：'
   },
   en: {
-    addOrder: '+ Add order', diffCust: 'customer differs from order 1', rateAutoBtn: 'Use auto', custTerms: 'Customer & terms', bankInfo: 'Beneficiary bank (matched by payment currency)', zoomTip: 'Double-click to zoom · scroll to scale', zFit: 'Fit',
+    addOrder: '+ Add order', srcOC: 'Matched from ledger “20-Order Currency”', srcPC: 'Matched from ledger “29-Payment currency”', missOC: 'No order currency in the ledger — please enter', missPC: 'No payment currency in the ledger — please enter', curManual: 'Edited manually', needCur: 'Enter both currencies', clearForm: 'Clear', cleared: 'Cleared — ready for a new invoice', bigView: 'Large preview', diffCust: 'customer differs from order 1', rateAutoBtn: 'Use auto', custTerms: 'Customer & terms', bankInfo: 'Beneficiary bank (matched by payment currency)', zoomTip: 'Double-click to zoom · scroll to scale', zFit: 'Fit',
     rateAuto: (a, b, d, r) => `Auto from 08-Ex Rate (${d}): 1 ${a} = ${r} ${b} — please verify`, rateNotToday: 'no rate for today, latest date used', rateNone: 'Pair not found in the rate table — enter manually', rateEmpty: 'No rates read from 08-Ex Rate: click Update data or check the rate-table mapping', rateDiag: (n, d) => n ? `${n} rates read, latest date ${d}` : 'No rates read yet (updates after saving settings)', openWin: 'Open in new window', viewTitle: 'Invoice preview', rateManualSet: 'Rate edited manually',
     bName: 'Beneficiary Name', bBank: 'Beneficiary Bank', bSwift: 'SWIFT Code', bIban: 'IBAN Number', bAcct: 'Account No.',
     gRate: 'Exchange rates (08-Ex Rate)', gRateP: 'Uses the rate for the invoice date. If rates are stored one column per currency (USD, EUR…), select only “Date”.', fDate: 'Date', fPair: 'Currency pair', fFrom: 'From', fTo: 'To', fRateV: 'Rate', fOrderCur: 'Order currency', fPayCur: 'Payment currency',
@@ -2891,12 +2897,13 @@ function renderStamp() {
 const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const OVR_FIELDS = [['customer', 'name'], ['address', 'address'], ['vat', 'vat'], ['reg', 'reg'], ['contact', 'contact'], ['email', 'email'], ['tel', 'tel'], ['contractNo', 'contractNo'], ['paymentTerms', 'paymentTerms'], ['priceTerm', 'priceTerm'], ['loadingPlace', 'loadingPlace'], ['dischargePlace', 'dischargePlace'], ['deliveryTime', 'deliveryTime'], ['unit', 'unit']];
 const BANK_FIELDS = [['bName', 'name'], ['bBank', 'bank'], ['bSwift', 'swift'], ['bIban', 'iban'], ['bAcct', 'acct']];
-function blankForm() { return { orders: [{ no: '', batch: '' }, { no: '', batch: '' }, { no: '', batch: '' }], slots: 1, piNo: '', date: today(), orderCur: 'USD', orderCurOther: '', payCur: 'USD', payCurOther: '', rate: '', rateManual: false, advance: 100, ovr: {}, bank: {} }; }
+function blankForm() { return { orders: [{ no: '', batch: '' }, { no: '', batch: '' }, { no: '', batch: '' }], slots: 1, piNo: '', date: today(), orderCur: '', orderCurOther: '', payCur: '', payCurOther: '', curSrc: { o: 'none', p: 'none' }, rate: '', rateManual: false, advance: 100, ovr: {}, bank: {} }; }
 function normForm(f) {
   const b = blankForm(); f = Object.assign(b, f || {});
   if (f.orderNo !== undefined) { f.orders[0] = { no: f.orderNo || '', batch: f.batch || '' }; delete f.orderNo; delete f.batch; }
   while (f.orders.length < 3) f.orders.push({ no: '', batch: '' });
-  f.ovr = f.ovr || {}; f.bank = f.bank || {}; f.slots = Math.min(3, Math.max(1, f.slots || 1));
+  f.ovr = f.ovr || {}; f.bank = f.bank || {};
+  if (!f.curSrc) f.curSrc = { o: f.orderCur ? 'manual' : 'none', p: f.payCur ? 'manual' : 'none' }; f.slots = Math.min(3, Math.max(1, f.slots || 1));
   return f;
 }
 LS.del('draft');
@@ -2943,6 +2950,12 @@ function buildInv() {
   };
 }
 function saveDraft() { /* intentionally not persisted */ }
+function resetForm() {
+  frozen = null; F = normForm(null);
+  $('#zoomer').classList.remove('show');
+  document.querySelectorAll('.ta-list.show').forEach((l) => l.classList.remove('show'));
+  syncInputs(); renderPreview();
+}
 
 /* ============ inputs UI ============ */
 function fillSelect(sel, opts, val) { sel.innerHTML = opts.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join(''); sel.value = val; }
@@ -3007,9 +3020,8 @@ function syncInputs() {
   document.querySelectorAll('.oslot').forEach((el) => el.classList.toggle('hidden', +el.dataset.k >= F.slots));
   $('#addOrder').classList.toggle('hidden', F.slots >= 3);
   $('#iPi').value = F.piNo; $('#iDate').value = F.date;
-  fillSelect($('#iOC'), CURS.map((c) => [c, c]), F.orderCur);
-  fillSelect($('#iPC'), CURS.map((c) => [c, c]), F.payCur);
-  $('#iOCo').value = F.orderCurOther || ''; $('#iPCo').value = F.payCurOther || '';
+  $('#iOC').value = curOf('o'); $('#iPC').value = curOf('p');
+  curHints();
   $('#iAdv').value = F.advance;
   for (let i = 0; i < 3; i++) buildBatch(i);
   updateRateUI(); syncOvr(); refreshOvrHints();
@@ -3035,8 +3047,6 @@ function buildBatch(i) {
 }
 function updateRateUI() {
   const oc = PICore.curCode(F.orderCur, F.orderCurOther), pc = PICore.curCode(F.payCur, F.payCurOther);
-  $('#iOCo').classList.toggle('hidden', F.orderCur !== 'Others');
-  $('#iPCo').classList.toggle('hidden', F.payCur !== 'Others');
   const r = $('#iRate'), h = $('#hRate'), ra = $('#rateAuto');
   ra.classList.add('hidden');
   if (oc === pc) { F.rate = 1; r.value = 1; r.disabled = true; r.classList.remove('warn'); h.textContent = t('rateSame'); h.className = 'hint'; $('#nbeLink').classList.add('hidden'); return; }
@@ -3051,11 +3061,32 @@ function updateRateUI() {
   }
   r.value = F.rate;
 }
+const MAIN_CURS = ['USD', 'EUR', 'EGP', 'CNY'];
+function curOf(k) { const c = k === 'o' ? F.orderCur : F.payCur, o = k === 'o' ? F.orderCurOther : F.payCurOther; return c === 'Others' ? (o || '') : (c || ''); }
+function setCur(k, code) {
+  code = String(code || '').trim().toUpperCase();
+  const [c, o] = !code ? ['', ''] : (MAIN_CURS.includes(code) ? [code, ''] : ['Others', code]);
+  if (k === 'o') { F.orderCur = c; F.orderCurOther = o; } else { F.payCur = c; F.payCurOther = o; }
+}
+function curHints() {
+  F.curSrc = F.curSrc || { o: 'none', p: 'none' };
+  for (const [k, id] of [['o', 'OC'], ['p', 'PC']]) {
+    const src = F.curSrc[k], has = !!curOf(k), inp = $('#i' + id), h = $('#h' + id), tag = $('#tag' + id);
+    tag.className = src === 'auto' ? 'auto-tag' : (src === 'manual' && has ? 'ovr-tag' : '');
+    tag.textContent = src === 'auto' ? t('auto') : (src === 'manual' && has ? t('ovr') : '');
+    inp.classList.toggle('warn', !has && !!primaryOrder());
+    if (!primaryOrder()) { h.textContent = ''; h.className = 'hint'; }
+    else if (src === 'auto') { h.textContent = t(k === 'o' ? 'srcOC' : 'srcPC'); h.className = 'hint'; }
+    else if (!has) { h.textContent = t(k === 'o' ? 'missOC' : 'missPC'); h.className = 'hint danger'; }
+    else { h.textContent = t('curManual'); h.className = 'hint'; }
+  }
+}
 function applyOrderCurrencies() {
   const a = autoValues();
-  const oc = normCur(a.orderCur), pc = normCur(a.payCur) || oc;
-  if (oc) { F.orderCur = oc[0]; F.orderCurOther = oc[1] || ''; }
-  if (pc) { F.payCur = pc[0]; F.payCurOther = pc[1] || ''; }
+  const oc = normCur(a.orderCur), pc = normCur(a.payCur);
+  setCur('o', oc ? (oc[0] === 'Others' ? oc[1] : oc[0]) : '');
+  setCur('p', pc ? (pc[0] === 'Others' ? pc[1] : pc[0]) : '');
+  F.curSrc = { o: oc ? 'auto' : 'none', p: pc ? 'auto' : 'none' };
   F.rateManual = false; F.bank = {};
 }
 function onOrderChanged(i, keepBatch) {
@@ -3087,10 +3118,8 @@ function bindInputs() {
   $('#iPi').addEventListener('input', (e) => { F.piNo = e.target.value.trim(); saveDraft(); schedule(); });
   $('#iDate').addEventListener('change', (e) => { F.date = e.target.value || today(); saveDraft(); updateRateUI(); schedule(); });
   const curChange = () => { F.rateManual = false; saveDraft(); updateRateUI(); refreshOvrHints(); schedule(); };
-  $('#iOC').addEventListener('change', (e) => { F.orderCur = e.target.value; curChange(); });
-  $('#iPC').addEventListener('change', (e) => { F.payCur = e.target.value; F.bank = {}; syncOvr(); curChange(); });
-  $('#iOCo').addEventListener('input', (e) => { F.orderCurOther = e.target.value; curChange(); });
-  $('#iPCo').addEventListener('input', (e) => { F.payCurOther = e.target.value; F.bank = {}; syncOvr(); curChange(); });
+  $('#iOC').addEventListener('input', (e) => { setCur('o', e.target.value); F.curSrc.o = 'manual'; curHints(); curChange(); });
+  $('#iPC').addEventListener('input', (e) => { setCur('p', e.target.value); F.curSrc.p = 'manual'; F.bank = {}; syncOvr(); curHints(); curChange(); });
   $('#iRate').addEventListener('input', (e) => { F.rate = e.target.value; F.rateManual = true; $('#hRate').textContent = t('rateManualSet'); $('#rateAuto').classList.remove('hidden'); saveDraft(); schedule(); });
   $('#rateAuto').addEventListener('click', () => { F.rateManual = false; saveDraft(); updateRateUI(); schedule(); });
   $('#iAdv').addEventListener('input', (e) => { F.advance = e.target.value; saveDraft(); schedule(); });
@@ -3303,6 +3332,7 @@ function download(blob, name) {
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
 }
 function validate(inv, forSave) {
+  if (inv.orderNo && (!curOf('o') || !curOf('p'))) { toast(t('needCur')); return false; }
   if (!inv.orderNo) { toast(t('needOrder')); return false; }
   if (forSave && !inv.piNo) { toast(t('needPi')); $('#iPi').focus(); return false; }
   const c = PICore.compute(inv);
@@ -3498,6 +3528,15 @@ document.addEventListener('DOMContentLoaded', () => {
   applyLang(); applyTheme();
   if (viewerMode()) return;
   $('#openWin').addEventListener('click', () => openInWindow(buildInv()));
+  $('#btnBig').addEventListener('click', () => openInWindow(buildInv()));
+  $('#btnClear').addEventListener('click', () => { resetForm(); toast(t('cleared')); });
+  // Lark may only hide the plugin panel instead of reloading it: reset when the panel comes back
+  let zeroSized = false, hiddenAt = 0;
+  addEventListener('resize', () => { const z = innerWidth === 0 || innerHeight === 0; if (z) zeroSized = true; else if (zeroSized) { zeroSized = false; resetForm(); } });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) hiddenAt = Date.now();
+    else if (hiddenAt && Date.now() - hiddenAt > 15 * 60 * 1000) resetForm();
+  });
   $('#langSeg').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; lang = b.dataset.l; LS.set('lang', lang); applyLang(); renderStamp(); buildOvrGrid(); syncInputs(); renderPreview(); if ($('#boxSheet').classList.contains('show')) renderBox(); if ($('#setSheet').classList.contains('show')) renderSettings(); });
   $('#btnTheme').addEventListener('click', () => { const cur = document.documentElement.dataset.theme; theme = cur === 'dark' ? 'light' : 'dark'; LS.set('theme', theme); applyTheme(); });
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
