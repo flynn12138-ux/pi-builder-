@@ -40,11 +40,11 @@ button{cursor:pointer;border:0;background:none}
 .topbar{position:sticky;top:0;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;
   padding:10px 16px;background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
   border-bottom:1px solid var(--line)}
-.topbar h1{margin:0;font-size:17px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.topbar h1{margin:0;font-size:18px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
 .tb-left{display:flex;align-items:center;gap:10px;min-width:0}
 .tb-right{display:flex;justify-content:flex-end;gap:6px}
-.stamp{font-size:11.5px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pill{white-space:nowrap;flex:none;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 14px;border-radius:980px;font-size:13px;font-weight:500;
+.stamp{font-size:13px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill{white-space:nowrap;flex:none;display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:980px;font-size:14px;font-weight:500;
   transition:transform .25s var(--spring),background .3s var(--ease),opacity .3s}
 .pill:active{transform:scale(.96)}
 .pill.primary{background:var(--accent);color:#fff}.pill.primary:hover{background:var(--accent-h)}
@@ -66,36 +66,41 @@ main{max-width:1180px;margin:0 auto;padding:22px 16px 140px}
 .card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;border:1px solid var(--line)}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 16px}
 @media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:520px){.grid{grid-template-columns:1fr}.topbar{grid-template-columns:auto 1fr;}.topbar h1{display:none}.stamp{display:none}}
+@media (max-width:520px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}.topbar{grid-template-columns:auto 1fr;}.topbar h1{display:none}.stamp{display:none}}
 .f{display:flex;flex-direction:column;gap:6px;min-width:0;position:relative}
-.f label{font-size:12px;font-weight:600;color:var(--text-2)}
+.f label{font-size:14px;font-weight:600;color:var(--text-2);display:flex;align-items:center;flex-wrap:wrap;gap:4px}
 .f .ctl{display:flex;gap:6px;align-items:center}
-.inp{width:100%;height:40px;padding:0 12px;border-radius:11px;border:1px solid var(--line-2);background:var(--surface-2);
+.inp{width:100%;height:44px;font-size:16px;padding:0 12px;border-radius:11px;border:1px solid var(--line-2);background:var(--surface-2);
   outline:none;font-size:14px;transition:border-color .25s var(--ease),box-shadow .25s var(--ease),background .25s}
 .inp:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);background:var(--surface)}
 .inp::placeholder{color:var(--text-3)}
-select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2386868b' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 12px center}
+select.inp{appearance:none;-webkit-appearance:none;padding-right:40px;background-size:16px 10px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10'%3E%3Cpath d='M2 2l6 6 6-6' stroke='%236e6e73' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center}
 .inp.warn{border-color:var(--danger);color:var(--danger);background:var(--danger-soft);font-weight:600}
 .inp.sm{width:86px;flex:none}
-.hint{font-size:11px;color:var(--text-3);min-height:14px}
+.hint{font-size:13px;color:var(--text-3);min-height:16px;line-height:1.35}
 .hint-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;min-height:14px}
-.link{font-size:11.5px;font-weight:600;color:var(--accent);padding:0;white-space:nowrap}
+.link{font-size:13.5px;font-weight:600;color:var(--accent);padding:0;white-space:nowrap}
 .link:hover{text-decoration:underline}
 .link.rm{color:var(--text-3);margin-left:6px;font-size:11px}
-.subhead{font-size:12px;font-weight:700;color:var(--text);margin:18px 0 0;letter-spacing:.01em}
+.subhead{font-size:14px;font-weight:700;color:var(--text);margin:18px 0 0;letter-spacing:.01em}
 .oslot{animation:rise .5s var(--ease)}
 .f:focus-within{z-index:40}
 .card{position:relative}
-.ta-list{z-index:50}
+.ta-list{z-index:50;right:auto;min-width:max(100%,300px);max-width:calc(100vw - 40px)}
+.ta-item span{white-space:nowrap}
 #previewOuter{cursor:zoom-in}
 #zoomer{position:fixed;inset:0;z-index:80;background:rgba(20,20,22,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s}
 #zoomer.show{opacity:1;visibility:visible}
-#zStage{position:absolute;inset:0;overflow:hidden;cursor:grab;touch-action:none}
+#zStage{position:absolute;inset:0;overflow:hidden;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
+#zStage.sel #zPages,#zStage.sel #zPages *,#previewOuter.sel{user-select:text;-webkit-user-select:text}
+#previewOuter{user-select:none;-webkit-user-select:none}
 #zStage.drag{cursor:grabbing}
-#zCanvas{position:absolute;left:0;top:0;transform-origin:0 0;width:794px;transition:transform .12s ease-out}
+#zCanvas{position:absolute;left:0;top:0;transform-origin:0 0}
+#zPages{width:794px}
 #zCanvas.nt{transition:none}
 .zbar{position:absolute;z-index:2;top:14px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:980px;
   background:rgba(40,40,44,.8);color:#f5f5f7;box-shadow:0 8px 30px rgba(0,0,0,.4)}
@@ -104,30 +109,36 @@ select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
 .zbar .pill.ghost{background:rgba(255,255,255,.12);color:#fff;height:30px}
 .hint.danger{color:var(--danger)}
 .divider{height:1px;background:var(--line);margin:16px 0}
-.disclose{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--accent);padding:4px 0}
+.disclose{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--accent);padding:4px 0}
 .disclose svg{transition:transform .4s var(--ease)}
 .disclose.open svg{transform:rotate(90deg)}
 .collapse{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease),opacity .45s var(--ease);opacity:0}
 .collapse.open{grid-template-rows:1fr;opacity:1}
 .collapse>div{overflow:hidden}
 .collapse .grid{padding-top:14px}
-.auto-tag{font-size:10px;font-weight:600;color:var(--ok);margin-left:6px}
-.ovr-tag{font-size:10px;font-weight:600;color:#bf5a00;margin-left:6px}
+.tag:empty{display:none}
+.tag{display:inline-flex;align-items:center;height:20px;padding:0 8px;margin-left:6px;border-radius:6px;font-size:12px;font-weight:600;border:1px solid currentColor;line-height:1}
+.tag.g{color:var(--ok);background:rgba(52,199,89,.10)}
+.tag.r{color:var(--danger);background:var(--danger-soft)}
+.more-btn{display:inline-flex;align-items:center;gap:6px;margin-top:6px;height:34px;padding:0 14px 0 10px;border-radius:10px;background:var(--accent-soft);color:var(--accent);font-size:14px;font-weight:600;align-self:flex-start;transition:background .25s}
+.more-btn svg{transition:transform .4s var(--ease)}
+.more-btn.open svg{transform:rotate(180deg)}
+.more-btn:hover{background:rgba(0,113,227,.16)}
 
 /* typeahead */
 .ta-list{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:30;background:var(--surface);border:1px solid var(--line-2);
   border-radius:12px;box-shadow:var(--shadow);max-height:280px;overflow:auto;padding:4px;
   opacity:0;transform:translateY(-4px) scale(.98);pointer-events:none;transition:opacity .2s var(--ease),transform .25s var(--ease)}
 .ta-list.show{opacity:1;transform:none;pointer-events:auto}
-.ta-item{padding:8px 10px;border-radius:8px;font-size:13px;cursor:pointer;display:flex;justify-content:space-between;gap:10px}
+.ta-item{padding:10px 12px;border-radius:8px;font-size:15px;cursor:pointer;display:flex;justify-content:space-between;gap:10px}
 .ta-item small{color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ta-item.act,.ta-item:hover{background:var(--accent-soft)}
 .ta-item mark{background:none;color:var(--accent);font-weight:700}
 
 /* preview */
 .section-title{display:flex;justify-content:space-between;align-items:baseline;margin:28px 2px 12px}
-.section-title h3{margin:0;font-size:19px;font-weight:600;letter-spacing:-.01em}
-.section-title span{font-size:12px;color:var(--text-3)}
+.section-title h3{margin:0;font-size:20px;font-weight:600;letter-spacing:-.01em}
+.section-title span{font-size:13px;color:var(--text-3)}
 #previewOuter{position:relative;transition:opacity .35s var(--ease)}
 #previewScale{transform-origin:top left}
 .pages{display:flex;flex-direction:column;gap:22px;align-items:center}
@@ -163,17 +174,17 @@ select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
 .modal .body{overflow:auto;flex:1;padding:20px}
 .ver{padding:14px;border-radius:14px;border:1px solid var(--line);margin-bottom:10px;background:var(--surface-2);
   animation:rise .5s var(--ease) both}
-.ver .t{font-size:13.5px;font-weight:600;word-break:break-all}
-.ver .m{font-size:11.5px;color:var(--text-3);margin-top:4px}
+.ver .t{font-size:15px;font-weight:600;word-break:break-all}
+.ver .m{font-size:13px;color:var(--text-3);margin-top:4px}
 .ver .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .ver .acts button{height:28px;padding:0 11px;border-radius:980px;font-size:12px;font-weight:500;background:var(--line);transition:background .25s}
 .ver .acts button:hover{background:var(--accent-soft);color:var(--accent)}
 .map-group{margin-bottom:22px}
 .map-group h4{margin:0 0 4px;font-size:14px}
 .map-group p{margin:0 0 10px;font-size:12px;color:var(--text-3)}
-.map-row{display:grid;grid-template-columns:120px 1fr;gap:10px;align-items:center;margin-bottom:8px}
-.map-row span{font-size:12.5px;color:var(--text-2)}
-.map-row .inp{height:36px;font-size:13px}
+.map-row{display:grid;grid-template-columns:140px 1fr;gap:10px;align-items:center;margin-bottom:8px}
+.map-row span{font-size:14px;color:var(--text-2)}
+.map-row .inp{height:40px;font-size:15px}
 
 /* toast */
 .toast{position:fixed;left:50%;top:70px;z-index:90;transform:translate(-50%,-12px);opacity:0;pointer-events:none;
@@ -271,36 +282,35 @@ select.inp{appearance:none;-webkit-appearance:none;padding-right:30px;
 
 <main>
   <div id="envBanner" class="banner hidden"></div>
-  <div class="hero reveal"><div class="eyebrow">Proforma Invoice · HTEG-CD-R-030</div><h2 data-i="heroTitle">填写信息，发票实时生成。</h2></div>
+  <div class="hero reveal" style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px"><div><div class="eyebrow">Proforma Invoice · HTEG-CD-R-030</div><h2 data-i="heroTitle">填写信息，发票实时生成。</h2></div><button class="pill ghost" id="btnClear" data-i="clearForm">清空</button></div>
 
   <section class="card reveal d1" id="inputs">
-    <button class="link" id="btnClear" data-i="clearForm" style="position:absolute;right:20px;top:12px;z-index:2">清空</button>
     <div class="grid">
-      <div class="f"><label><span data-i="orderNo">订单编号</span> 1</label>
+      <div class="f"><label><span data-i="orderNo">订单编号</span> 1<span class="tag" id="tgO0"></span></label>
         <input class="inp" id="iOrder0" data-ph="orderPh" autocomplete="off">
-        <div class="ta-list" id="taOrder0"></div><div class="hint-row"><span class="hint" id="hOrder0"></span><button class="link" id="addOrder" data-i="addOrder">+ 添加订单</button></div></div>
-      <div class="f"><label><span data-i="batch">批次</span> 1</label>
+        <div class="ta-list" id="taOrder0"></div><div class="hint" id="hOrder0"></div>
+        <button class="more-btn" id="addOrder"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3.5 6 8 10.5 12.5 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="moreTxt"></span></button></div>
+      <div class="f"><label><span data-i="batch">批次</span> 1<span class="tag" id="tgB0"></span></label>
         <select class="inp" id="iBatch0"></select><div class="hint"></div></div>
-      <div class="f"><label>PI / Invoice No.</label>
-        <input class="inp" id="iPi" data-ph="piPh" autocomplete="off"><div class="hint"></div></div>
-      <div class="f"><label>Invoice Date</label>
-        <input class="inp" id="iDate" type="date"><div class="hint" id="hDate"></div></div>
-      <div class="f oslot hidden" data-k="1"><label><span data-i="orderNo">订单编号</span> 2 <button class="link rm" data-rm="1">✕</button></label>
+      <div class="f oslot hidden"><label><span data-i="orderNo">订单编号</span> 2<span class="tag" id="tgO1"></span></label>
         <input class="inp" id="iOrder1" data-ph="orderPh" autocomplete="off"><div class="ta-list" id="taOrder1"></div><div class="hint" id="hOrder1"></div></div>
-      <div class="f oslot hidden" data-k="1"><label><span data-i="batch">批次</span> 2</label><select class="inp" id="iBatch1"></select><div class="hint"></div></div>
-      <div class="f oslot hidden" data-k="2"><label><span data-i="orderNo">订单编号</span> 3 <button class="link rm" data-rm="2">✕</button></label>
+      <div class="f oslot hidden"><label><span data-i="batch">批次</span> 2<span class="tag" id="tgB1"></span></label><select class="inp" id="iBatch1"></select><div class="hint"></div></div>
+      <div class="f oslot hidden"><label><span data-i="orderNo">订单编号</span> 3<span class="tag" id="tgO2"></span></label>
         <input class="inp" id="iOrder2" data-ph="orderPh" autocomplete="off"><div class="ta-list" id="taOrder2"></div><div class="hint" id="hOrder2"></div></div>
-      <div class="f oslot hidden" data-k="2"><label><span data-i="batch">批次</span> 3</label><select class="inp" id="iBatch2"></select><div class="hint"></div></div>
-
-      <div class="f"><label><span data-i="orderCur">订单币种</span><span id="tagOC"></span></label>
+      <div class="f oslot hidden"><label><span data-i="batch">批次</span> 3<span class="tag" id="tgB2"></span></label><select class="inp" id="iBatch2"></select><div class="hint"></div></div>
+      <div class="f"><label>PI / Invoice No.<span class="tag" id="tgPi"></span></label>
+        <input class="inp" id="iPi" data-ph="piPh" autocomplete="off"><div class="hint"></div></div>
+      <div class="f"><label>Invoice Date<span class="tag" id="tgDate"></span></label>
+        <input class="inp" id="iDate" type="date"><div class="hint" id="hDate"></div></div>
+      <div class="f"><label><span data-i="orderCur">订单币种</span><span class="tag" id="tagOC"></span></label>
         <input class="inp" id="iOC" list="curList" autocomplete="off" spellcheck="false" style="text-transform:uppercase"><div class="hint" id="hOC"></div></div>
-      <div class="f"><label><span data-i="payCur">回款币种</span><span id="tagPC"></span></label>
+      <div class="f"><label><span data-i="payCur">回款币种</span><span class="tag" id="tagPC"></span></label>
         <input class="inp" id="iPC" list="curList" autocomplete="off" spellcheck="false" style="text-transform:uppercase"><div class="hint" id="hPC"></div></div>
       <datalist id="curList"><option value="USD"><option value="EUR"><option value="EGP"><option value="CNY"></datalist>
-      <div class="f"><label data-i="rate">汇率</label>
-        <div class="ctl"><input class="inp" id="iRate" type="number" step="any" inputmode="decimal"><a class="pill ghost" id="nbeLink" href="https://www.nbe.com.eg/NBE/E/#/EN/ExchangeRate" target="_blank" rel="noopener" style="height:40px;text-decoration:none">NBE</a></div>
+      <div class="f"><label><span data-i="rate">汇率</span><span class="tag" id="tgRate"></span></label>
+        <div class="ctl"><input class="inp" id="iRate" type="number" step="any" inputmode="decimal"><a class="pill ghost" id="nbeLink" href="https://www.nbe.com.eg/NBE/E/#/EN/ExchangeRate" target="_blank" rel="noopener" style="height:44px;text-decoration:none">NBE</a></div>
         <div class="hint-row"><span class="hint" id="hRate"></span><button class="link hidden" id="rateAuto" data-i="rateAutoBtn">恢复自动</button></div></div>
-      <div class="f"><label data-i="advance">预付款比例</label>
+      <div class="f"><label><span data-i="advance">预付款比例</span><span class="tag" id="tgAdv"></span></label>
         <div class="ctl"><input class="inp" id="iAdv" type="number" step="any" min="0" max="100" inputmode="decimal"><span style="color:var(--text-2);font-weight:600">%</span></div><div class="hint"></div></div>
     </div>
 
@@ -2576,7 +2586,7 @@ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<
 /* ============ i18n ============ */
 const I18N = {
   zh: {
-    addOrder: '+ 添加订单', srcOC: '已按台账「20-Order Currency」匹配', srcPC: '已按台账「29-Payment currency」匹配', missOC: '台账中该订单没有订单币种，请填写', missPC: '台账中该订单没有回款币种，请填写', curManual: '已手动修改', needCur: '请填写订单币种和回款币种', clearForm: '清空', cleared: '已清空，可开始新的形式发票', bigView: '大图预览', diffCust: '客户与订单 1 不同', rateAutoBtn: '恢复自动', custTerms: '客户资料与条款', bankInfo: '收款银行（按回款币种自动匹配）', zoomTip: '双击放大 · 滚轮缩放', zFit: '适应',
+    addOrder: '+ 添加订单', addOrder23: '添加订单 2 / 3', collapseOrders: '收起订单 2 / 3', tAuto: '自动', tMod: '已修改', tManual: '手动填写', curModified: '已修改台账带出的币种', srcOC: '已按台账「20-Order Currency」匹配', srcPC: '已按台账「29-Payment currency」匹配', missOC: '台账中该订单没有订单币种，请填写', missPC: '台账中该订单没有回款币种，请填写', curManual: '已手动修改', needCur: '请填写订单币种和回款币种', clearForm: '清空', cleared: '已清空，可开始新的形式发票', bigView: '大图预览', diffCust: '客户与订单 1 不同', rateAutoBtn: '恢复自动', custTerms: '客户资料与条款', bankInfo: '收款银行（按回款币种自动匹配）', zoomTip: '双击放大 · 滚轮缩放', zFit: '适应',
     rateAuto: (a, b, d, r) => `已自动带出 08-Ex Rate（${d}）：1 ${a} = ${r} ${b}，请核对`, rateNotToday: '当天无汇率，已用最近日期', rateNone: '汇率表中未找到该币种对，请手动填写', rateEmpty: '未读到 08-Ex Rate 汇率：请点「更新数据」，或在设置中检查汇率表字段', rateDiag: (n, d) => n ? `已读取 ${n} 条汇率，最新日期 ${d}` : '尚未读取到汇率数据（保存设置后会自动更新）', openWin: '新窗口打开', viewTitle: '形式发票预览', rateManualSet: '已手动修改汇率',
     bName: 'Beneficiary Name', bBank: 'Beneficiary Bank', bSwift: 'SWIFT Code', bIban: 'IBAN Number', bAcct: 'Account No.',
     gRate: '汇率表（08-Ex Rate）', gRateP: '按发票日期取当天汇率；若汇率按列存放（如 USD、EUR 各一列），只需选「日期」，其余留空。', fDate: '日期', fPair: '币种对', fFrom: '原币', fTo: '目标币', fRateV: '汇率值', fOrderCur: '订单币种', fPayCur: '回款币种',
@@ -2603,7 +2613,7 @@ const I18N = {
     dlBlocked: '若浏览器拦截下载，请到多维表格「' + HIST_NAME + '」中下载附件。', attachFail: '版本已保存，但附件上传失败：'
   },
   en: {
-    addOrder: '+ Add order', srcOC: 'Matched from ledger “20-Order Currency”', srcPC: 'Matched from ledger “29-Payment currency”', missOC: 'No order currency in the ledger — please enter', missPC: 'No payment currency in the ledger — please enter', curManual: 'Edited manually', needCur: 'Enter both currencies', clearForm: 'Clear', cleared: 'Cleared — ready for a new invoice', bigView: 'Large preview', diffCust: 'customer differs from order 1', rateAutoBtn: 'Use auto', custTerms: 'Customer & terms', bankInfo: 'Beneficiary bank (matched by payment currency)', zoomTip: 'Double-click to zoom · scroll to scale', zFit: 'Fit',
+    addOrder: '+ Add order', addOrder23: 'Add orders 2 / 3', collapseOrders: 'Hide orders 2 / 3', tAuto: 'Auto', tMod: 'Modified', tManual: 'Manual', curModified: 'Changed from the ledger value', srcOC: 'Matched from ledger “20-Order Currency”', srcPC: 'Matched from ledger “29-Payment currency”', missOC: 'No order currency in the ledger — please enter', missPC: 'No payment currency in the ledger — please enter', curManual: 'Edited manually', needCur: 'Enter both currencies', clearForm: 'Clear', cleared: 'Cleared — ready for a new invoice', bigView: 'Large preview', diffCust: 'customer differs from order 1', rateAutoBtn: 'Use auto', custTerms: 'Customer & terms', bankInfo: 'Beneficiary bank (matched by payment currency)', zoomTip: 'Double-click to zoom · scroll to scale', zFit: 'Fit',
     rateAuto: (a, b, d, r) => `Auto from 08-Ex Rate (${d}): 1 ${a} = ${r} ${b} — please verify`, rateNotToday: 'no rate for today, latest date used', rateNone: 'Pair not found in the rate table — enter manually', rateEmpty: 'No rates read from 08-Ex Rate: click Update data or check the rate-table mapping', rateDiag: (n, d) => n ? `${n} rates read, latest date ${d}` : 'No rates read yet (updates after saving settings)', openWin: 'Open in new window', viewTitle: 'Invoice preview', rateManualSet: 'Rate edited manually',
     bName: 'Beneficiary Name', bBank: 'Beneficiary Bank', bSwift: 'SWIFT Code', bIban: 'IBAN Number', bAcct: 'Account No.',
     gRate: 'Exchange rates (08-Ex Rate)', gRateP: 'Uses the rate for the invoice date. If rates are stored one column per currency (USD, EUR…), select only “Date”.', fDate: 'Date', fPair: 'Currency pair', fFrom: 'From', fTo: 'To', fRateV: 'Rate', fOrderCur: 'Order currency', fPayCur: 'Payment currency',
@@ -2888,29 +2898,29 @@ async function doRefresh() {
 }
 function renderStamp() {
   const s = $('#stamp');
-  if (!DATA) { s.textContent = t('noData'); return; }
+  if (!DATA) { s.textContent = 'v6 · ' + t('noData'); return; }
   const d = new Date(DATA.fetchedAt);
-  s.textContent = t('updatedAt') + d.toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  s.textContent = 'v6 · ' + t('updatedAt') + d.toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
 }
 
 /* ============ form state ============ */
 const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const OVR_FIELDS = [['customer', 'name'], ['address', 'address'], ['vat', 'vat'], ['reg', 'reg'], ['contact', 'contact'], ['email', 'email'], ['tel', 'tel'], ['contractNo', 'contractNo'], ['paymentTerms', 'paymentTerms'], ['priceTerm', 'priceTerm'], ['loadingPlace', 'loadingPlace'], ['dischargePlace', 'dischargePlace'], ['deliveryTime', 'deliveryTime'], ['unit', 'unit']];
 const BANK_FIELDS = [['bName', 'name'], ['bBank', 'bank'], ['bSwift', 'swift'], ['bIban', 'iban'], ['bAcct', 'acct']];
-function blankForm() { return { orders: [{ no: '', batch: '' }, { no: '', batch: '' }, { no: '', batch: '' }], slots: 1, piNo: '', date: today(), orderCur: '', orderCurOther: '', payCur: '', payCurOther: '', curSrc: { o: 'none', p: 'none' }, rate: '', rateManual: false, advance: 100, ovr: {}, bank: {} }; }
+function blankForm() { return { orders: [{ no: '', batch: '' }, { no: '', batch: '' }, { no: '', batch: '' }], more: false, batchMod: [false, false, false], dateMod: false, piNo: '', date: today(), orderCur: '', orderCurOther: '', payCur: '', payCurOther: '', curSrc: { o: 'none', p: 'none' }, rate: '', rateManual: false, advance: 100, ovr: {}, bank: {} }; }
 function normForm(f) {
   const b = blankForm(); f = Object.assign(b, f || {});
   if (f.orderNo !== undefined) { f.orders[0] = { no: f.orderNo || '', batch: f.batch || '' }; delete f.orderNo; delete f.batch; }
   while (f.orders.length < 3) f.orders.push({ no: '', batch: '' });
   f.ovr = f.ovr || {}; f.bank = f.bank || {};
-  if (!f.curSrc) f.curSrc = { o: f.orderCur ? 'manual' : 'none', p: f.payCur ? 'manual' : 'none' }; f.slots = Math.min(3, Math.max(1, f.slots || 1));
+  if (!f.curSrc) f.curSrc = { o: f.orderCur ? 'manual' : 'none', p: f.payCur ? 'manual' : 'none' }; f.more = !!(f.more || f.slots > 1 || f.orders[1].no || f.orders[2].no); f.batchMod = f.batchMod || [false, false, false];
   return f;
 }
 LS.del('draft');
 let F = normForm(null); // every opening starts blank (requirement: do not keep last inputs)
 let frozen = null; // when restoring a version: frozen data snapshot (items, auto values)
 
-const activeOrders = () => F.orders.slice(0, F.slots).filter((o) => o.no);
+const activeOrders = () => F.orders.filter((o) => o.no);
 const primaryOrder = () => (activeOrders()[0] || {}).no || '';
 function findCustomer(name) {
   if (!DATA || !name) return null;
@@ -3009,16 +3019,15 @@ function refreshOvrHints() {
   const one = (grid, key, autoV, o) => {
     const el = $(`#ov_${grid}_${key}`), tag = $(`#tag_${grid}_${key}`); if (!el) return;
     el.placeholder = autoV ? autoV : '/';
-    tag.className = o ? 'ovr-tag' : (autoV ? 'auto-tag' : '');
-    tag.textContent = o ? t('ovr') : (autoV ? t('auto') : '');
+    setTag(tag, o ? (autoV ? 'mod' : 'manual') : (autoV ? 'auto' : 'manual'));
   };
   OVR_FIELDS.forEach(([, key]) => one('ovrGrid', key, a[key], F.ovr[key]));
   BANK_FIELDS.forEach(([, key]) => one('bankGrid', key, b[key], F.bank[key]));
 }
 function syncInputs() {
   for (let i = 0; i < 3; i++) $('#iOrder' + i).value = F.orders[i].no;
-  document.querySelectorAll('.oslot').forEach((el) => el.classList.toggle('hidden', +el.dataset.k >= F.slots));
-  $('#addOrder').classList.toggle('hidden', F.slots >= 3);
+  document.querySelectorAll('.oslot').forEach((el) => el.classList.toggle('hidden', !F.more));
+  syncMoreBtn();
   $('#iPi').value = F.piNo; $('#iDate').value = F.date;
   $('#iOC').value = curOf('o'); $('#iPC').value = curOf('p');
   curHints();
@@ -3068,17 +3077,38 @@ function setCur(k, code) {
   const [c, o] = !code ? ['', ''] : (MAIN_CURS.includes(code) ? [code, ''] : ['Others', code]);
   if (k === 'o') { F.orderCur = c; F.orderCurOther = o; } else { F.payCur = c; F.payCurOther = o; }
 }
+function setTag(el, st) {
+  if (typeof el === 'string') el = $('#' + el); if (!el) return;
+  el.className = 'tag' + (st === 'mod' ? ' r' : st ? ' g' : '');
+  el.textContent = st === 'auto' ? t('tAuto') : st === 'mod' ? t('tMod') : st === 'manual' ? t('tManual') : '';
+}
+function syncMoreBtn() {
+  const n = [1, 2].filter((i) => F.orders[i].no).length;
+  $('#addOrder').classList.toggle('open', F.more);
+  $('#moreTxt').textContent = F.more ? t('collapseOrders') : t('addOrder23') + (n ? ` (${n})` : '');
+}
+function refreshTags() {
+  for (let i = 0; i < 3; i++) {
+    setTag('tgO' + i, 'manual');
+    setTag('tgB' + i, F.orders[i].no ? (F.batchMod[i] ? 'mod' : 'auto') : '');
+  }
+  setTag('tgPi', 'manual'); setTag('tgAdv', 'manual');
+  setTag('tgDate', F.dateMod ? 'mod' : 'auto');
+  const oc = PICore.curCode(F.orderCur, F.orderCurOther), pc = PICore.curCode(F.payCur, F.payCurOther);
+  const auto = oc && pc && oc !== pc ? rateFor(oc, pc, F.date || today()) : null;
+  setTag('tgRate', oc && oc === pc ? 'auto' : (!F.rateManual && auto ? 'auto' : (F.rateManual && auto ? 'mod' : 'manual')));
+  if (typeof curHints === 'function') { for (const [k, id] of [['o', 'tagOC'], ['p', 'tagPC']]) { const src = (F.curSrc || {})[k]; setTag(id, src === 'auto' ? 'auto' : src === 'mod' ? 'mod' : 'manual'); } }
+}
 function curHints() {
   F.curSrc = F.curSrc || { o: 'none', p: 'none' };
   for (const [k, id] of [['o', 'OC'], ['p', 'PC']]) {
     const src = F.curSrc[k], has = !!curOf(k), inp = $('#i' + id), h = $('#h' + id), tag = $('#tag' + id);
-    tag.className = src === 'auto' ? 'auto-tag' : (src === 'manual' && has ? 'ovr-tag' : '');
-    tag.textContent = src === 'auto' ? t('auto') : (src === 'manual' && has ? t('ovr') : '');
+    setTag(tag, src === 'auto' ? 'auto' : (src === 'mod' ? 'mod' : 'manual'));
     inp.classList.toggle('warn', !has && !!primaryOrder());
     if (!primaryOrder()) { h.textContent = ''; h.className = 'hint'; }
     else if (src === 'auto') { h.textContent = t(k === 'o' ? 'srcOC' : 'srcPC'); h.className = 'hint'; }
     else if (!has) { h.textContent = t(k === 'o' ? 'missOC' : 'missPC'); h.className = 'hint danger'; }
-    else { h.textContent = t('curManual'); h.className = 'hint'; }
+    else { h.textContent = src === 'mod' ? t('curModified') : t('curManual'); h.className = 'hint'; }
   }
 }
 function applyOrderCurrencies() {
@@ -3090,7 +3120,7 @@ function applyOrderCurrencies() {
   F.rateManual = false; F.bank = {};
 }
 function onOrderChanged(i, keepBatch) {
-  if (!keepBatch && F.orders[i]) F.orders[i].batch = '';
+  if (!keepBatch && F.orders[i]) { F.orders[i].batch = ''; F.batchMod[i] = false; }
   if (!frozen && i === 0 && !keepBatch) applyOrderCurrencies();
   saveDraft(); syncInputs(); schedule();
 }
@@ -3102,24 +3132,21 @@ function bindInputs() {
       const list = orderList().filter((o) => !F.orders.some((x, j) => j !== i && x.no === o)).map((o) => ({ v: o, s: (DATA.orders[o] || {}).customer || '' }));
       return c0 ? list.sort((a, b) => (b.s === c0) - (a.s === c0)) : list;
     }, (v) => { frozen = null; F.orders[i].no = v; inp.value = v; onOrderChanged(i, false); });
+    inp.addEventListener('input', () => { if (!inp.value.trim() && F.orders[i].no) { frozen = null; F.orders[i].no = ''; F.orders[i].batch = ''; onOrderChanged(i, false); } });
     inp.addEventListener('change', () => {
       const v = inp.value.trim(); if (v === F.orders[i].no) return;
       const exact = orderList().find((o) => o.toLowerCase() === v.toLowerCase());
       frozen = null; F.orders[i].no = exact || v; onOrderChanged(i, false);
     });
-    $('#iBatch' + i).addEventListener('change', (e) => { F.orders[i].batch = e.target.value; saveDraft(); buildBatch(i); schedule(); });
+    $('#iBatch' + i).addEventListener('change', (e) => { F.orders[i].batch = e.target.value; F.batchMod[i] = true; saveDraft(); buildBatch(i); schedule(); });
   }
-  $('#addOrder').addEventListener('click', () => { if (F.slots < 3) { F.slots++; saveDraft(); syncInputs(); setTimeout(() => $('#iOrder' + (F.slots - 1)).focus(), 50); } });
-  document.querySelectorAll('[data-rm]').forEach((b) => b.addEventListener('click', (e) => {
-    e.preventDefault(); const k = +b.dataset.rm;
-    F.orders.splice(k, 1); F.orders.push({ no: '', batch: '' }); F.slots = Math.max(1, F.slots - 1);
-    frozen = null; saveDraft(); syncInputs(); schedule();
-  }));
+  $('#addOrder').addEventListener('click', () => { F.more = !F.more; document.querySelectorAll('.oslot').forEach((el) => el.classList.toggle('hidden', !F.more)); syncMoreBtn(); if (F.more) setTimeout(() => $('#iOrder1').focus(), 50); });
+
   $('#iPi').addEventListener('input', (e) => { F.piNo = e.target.value.trim(); saveDraft(); schedule(); });
-  $('#iDate').addEventListener('change', (e) => { F.date = e.target.value || today(); saveDraft(); updateRateUI(); schedule(); });
+  $('#iDate').addEventListener('change', (e) => { F.date = e.target.value || today(); F.dateMod = F.date !== today(); saveDraft(); updateRateUI(); schedule(); });
   const curChange = () => { F.rateManual = false; saveDraft(); updateRateUI(); refreshOvrHints(); schedule(); };
-  $('#iOC').addEventListener('input', (e) => { setCur('o', e.target.value); F.curSrc.o = 'manual'; curHints(); curChange(); });
-  $('#iPC').addEventListener('input', (e) => { setCur('p', e.target.value); F.curSrc.p = 'manual'; F.bank = {}; syncOvr(); curHints(); curChange(); });
+  $('#iOC').addEventListener('input', (e) => { setCur('o', e.target.value); F.curSrc.o = normCur(autoValues().orderCur) ? 'mod' : 'manual'; curHints(); curChange(); });
+  $('#iPC').addEventListener('input', (e) => { setCur('p', e.target.value); F.curSrc.p = normCur(autoValues().payCur) ? 'mod' : 'manual'; F.bank = {}; syncOvr(); curHints(); curChange(); });
   $('#iRate').addEventListener('input', (e) => { F.rate = e.target.value; F.rateManual = true; $('#hRate').textContent = t('rateManualSet'); $('#rateAuto').classList.remove('hidden'); saveDraft(); schedule(); });
   $('#rateAuto').addEventListener('click', () => { F.rateManual = false; saveDraft(); updateRateUI(); schedule(); });
   $('#iAdv').addEventListener('input', (e) => { F.advance = e.target.value; saveDraft(); schedule(); });
@@ -3222,10 +3249,10 @@ function schedule() { clearTimeout(schedT); schedT = setTimeout(renderPreview, 6
 function renderPreview() {
   const inv = buildInv();
   const pages = $('#pages');
-  if (!inv.orderNo) { pages.innerHTML = `<div class="empty">${esc(DATA ? t('needOrder') : t('noData'))}</div>`; $('#pageInfo').textContent = ''; fitPreview(); return; }
+  if (!inv.orderNo) { refreshTags(); pages.innerHTML = `<div class="empty">${esc(DATA ? t('needOrder') : t('noData'))}</div>`; $('#pageInfo').textContent = ''; fitPreview(); return; }
   const r = renderInvoice(pages, inv);
   $('#pageInfo').textContent = `${t('items', r.c.items.length)} · ${t('pages', r.pages)}`;
-  fitPreview();
+  fitPreview(); refreshTags();
   if ($('#zoomer').classList.contains('show')) { $('#zPages').innerHTML = pages.innerHTML; }
 }
 function fitPreview() {
@@ -3238,7 +3265,7 @@ function fitPreview() {
 const Z = { s: 1, x: 0, y: 0 };
 function zApply(anim) {
   const cv = $('#zCanvas'); cv.classList.toggle('nt', !anim);
-  cv.style.transform = `translate(${Z.x}px,${Z.y}px) scale(${Z.s})`;
+  cv.style.left = Z.x + 'px'; cv.style.top = Z.y + 'px'; $('#zPages').style.zoom = Z.s;
   $('#zPct').textContent = Math.round(Z.s * 100) + '%';
 }
 function zFit() {
@@ -3256,7 +3283,7 @@ function b64urlDec(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.le
 function openInWindow(inv) {
   if (!inv || !inv.orderNo) { toast(t('needOrder')); return; }
   const url = location.origin + location.pathname + '#view=' + b64urlEnc(JSON.stringify({ inv, lang, theme: document.documentElement.dataset.theme }));
-  let w = null; try { w = window.open(url, '_blank', 'noopener'); } catch (e) {}
+  let w = null; try { w = window.open(url, '_blank'); if (w) { try { w.opener = null; } catch (e) {} } } catch (e) {}
   if (!w) { const a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener'; document.body.appendChild(a); a.click(); a.remove(); }
 }
 function viewerMode() {
@@ -3273,14 +3300,27 @@ function viewerMode() {
   bar.insertAdjacentHTML('beforeend', '<button class="pill ghost" id="vX">Excel</button><button class="pill ghost" id="vP">PDF</button>');
   $('#vX').addEventListener('click', () => exportX(data.inv)); $('#vP').addEventListener('click', () => exportP(data.inv));
   $('#zClose').addEventListener('click', () => { try { window.close(); } catch (e) {} });
-  $('#zoomer').classList.add('show'); bindZoom(); requestAnimationFrame(zFit);
+  $('#zoomer').classList.add('show'); document.body.classList.add('viewing'); bindZoom(); requestAnimationFrame(zFit);
   addEventListener('resize', zFit);
   return true;
 }
 function openZoom(src, inv) {
   if (!src.querySelector('.pg')) return;
   zInv = inv || null;
-  $('#zPages').innerHTML = src.innerHTML; $('#zoomer').classList.add('show'); requestAnimationFrame(zFit);
+  $('#zPages').innerHTML = src.innerHTML; $('#zoomer').classList.add('show'); document.body.classList.add('viewing'); requestAnimationFrame(zFit);
+}
+function onText(x, y) {
+  let r = null;
+  try { r = document.caretRangeFromPoint ? document.caretRangeFromPoint(x, y) : null; if (!r && document.caretPositionFromPoint) { const p = document.caretPositionFromPoint(x, y); if (p) { r = document.createRange(); r.setStart(p.offsetNode, p.offset); } } } catch (e) { return false; }
+  if (!r || !r.startContainer || r.startContainer.nodeType !== 3) return false;
+  const n = r.startContainer, o = r.startOffset;
+  for (const off of [o, o - 1]) {
+    if (off < 0 || off >= n.length) continue;
+    const rr = document.createRange(); rr.setStart(n, off); rr.setEnd(n, off + 1);
+    const b = rr.getBoundingClientRect();
+    if (b.width && x >= b.left - 1 && x <= b.right + 1 && y >= b.top - 1 && y <= b.bottom + 1) return true;
+  }
+  return false;
 }
 function bindZoom() {
   const st = $('#zStage');
@@ -3289,8 +3329,24 @@ function bindZoom() {
   $('#zWin').addEventListener('click', () => openInWindow(zInv));
   st.addEventListener('wheel', (e) => { e.preventDefault(); const r = st.getBoundingClientRect(); zAt(Math.exp(-e.deltaY * 0.0015), e.clientX - r.left, e.clientY - r.top); }, { passive: false });
   let drag = null;
-  st.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, ox: Z.x, oy: Z.y }; st.classList.add('drag'); st.setPointerCapture(e.pointerId); });
-  st.addEventListener('pointermove', (e) => { if (!drag) return; Z.x = drag.ox + e.clientX - drag.x; Z.y = drag.oy + e.clientY - drag.y; zApply(false); });
+  for (const el of [st, $('#previewOuter')]) {
+    el.addEventListener('pointerdown', (e) => {
+      if (onText(e.clientX, e.clientY)) { el.classList.add('sel'); return; }
+      el.classList.remove('sel'); try { getSelection().removeAllRanges(); } catch (er) {}
+      if (el !== st) return;
+      drag = { x: e.clientX, y: e.clientY, ox: Z.x, oy: Z.y }; st.classList.add('drag');
+    });
+  }
+  for (const el of [st, $('#previewOuter')]) el.addEventListener('mousedown', (e) => { if (!el.classList.contains('sel')) e.preventDefault(); });
+  addEventListener('pointerup', () => { if (drag) { drag = null; st.classList.remove('drag'); } });
+  // decide selectability before the button goes down (browsers fix the selection anchor at mousedown)
+  for (const el of [st, $('#previewOuter')]) {
+    let tt = 0;
+    el.addEventListener('pointermove', (e) => { if (drag || e.buttons) return; const now = Date.now(); if (now - tt < 50) return; tt = now; const on = onText(e.clientX, e.clientY); el.classList.toggle('sel', on); if (el === st) st.style.cursor = on ? 'text' : ''; });
+  }
+  let hovT = 0;
+  st.addEventListener('pointermove', (e) => {
+    if (!drag) return; Z.x = drag.ox + e.clientX - drag.x; Z.y = drag.oy + e.clientY - drag.y; zApply(false); });
   const end = () => { drag = null; st.classList.remove('drag'); };
   st.addEventListener('pointerup', end); st.addEventListener('pointercancel', end);
   st.addEventListener('dblclick', (e) => { const r = st.getBoundingClientRect(); if (Z.s < 1.2) { zAt(1.8, e.clientX - r.left, e.clientY - r.top); zApply(true); } else zFit(); });
