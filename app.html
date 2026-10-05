@@ -66,7 +66,9 @@ main{max-width:1180px;margin:0 auto;padding:22px 16px 140px}
 .card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;border:1px solid var(--line)}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 16px}
 @media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:520px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}.topbar{grid-template-columns:auto 1fr;}.topbar h1{display:none}.stamp{font-size:11px;max-width:120px}}
+.pair{display:contents}
+.full{grid-column:1/-1;margin-top:-6px}
+@media (max-width:520px){.grid{grid-template-columns:1fr;gap:12px}.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}.hero h2{font-size:24px}.hero{flex-wrap:wrap}.ctl .pill{padding:0 10px}.topbar{grid-template-columns:auto 1fr;}.topbar h1{display:none}.stamp{font-size:11px;max-width:120px}}
 .f{display:flex;flex-direction:column;gap:6px;min-width:0;position:relative}
 .f label{font-size:14px;font-weight:600;color:var(--text-2);display:flex;align-items:center;flex-wrap:wrap;gap:4px}
 .f .ctl{display:flex;gap:6px;align-items:center}
@@ -288,10 +290,10 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
     <div class="grid">
       <div class="f"><label><span data-i="orderNo">订单编号</span> 1<span class="tag" id="tgO0"></span></label>
         <input class="inp" id="iOrder0" data-ph="orderPh" autocomplete="off">
-        <div class="ta-list" id="taOrder0"></div><div class="hint" id="hOrder0"></div>
-        <button class="more-btn" id="addOrder"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3.5 6 8 10.5 12.5 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="moreTxt"></span></button></div>
+        <div class="ta-list" id="taOrder0"></div><div class="hint" id="hOrder0"></div></div>
       <div class="f"><label><span data-i="batch">批次</span> 1<span class="tag" id="tgB0"></span></label>
         <select class="inp" id="iBatch0"></select><div class="hint"></div></div>
+      <div class="full"><button class="more-btn" id="addOrder"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3.5 6 8 10.5 12.5 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="moreTxt"></span></button></div>
       <div class="f oslot hidden"><label><span data-i="orderNo">订单编号</span> 2<span class="tag" id="tgO1"></span></label>
         <input class="inp" id="iOrder1" data-ph="orderPh" autocomplete="off"><div class="ta-list" id="taOrder1"></div><div class="hint" id="hOrder1"></div></div>
       <div class="f oslot hidden"><label><span data-i="batch">批次</span> 2<span class="tag" id="tgB1"></span></label><select class="inp" id="iBatch1"></select><div class="hint"></div></div>
@@ -302,16 +304,16 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
         <input class="inp" id="iPi" data-ph="piPh" autocomplete="off"><div class="hint"></div></div>
       <div class="f"><label>Invoice Date<span class="tag" id="tgDate"></span></label>
         <input class="inp" id="iDate" type="date"><div class="hint" id="hDate"></div></div>
-      <div class="f"><label><span data-i="orderCur">订单币种</span><span class="tag" id="tagOC"></span></label>
+      <div class="pair"><div class="f"><label><span data-i="orderCur">订单币种</span><span class="tag" id="tagOC"></span></label>
         <input class="inp" id="iOC" list="curList" autocomplete="off" spellcheck="false" style="text-transform:uppercase"><div class="hint" id="hOC"></div></div>
       <div class="f"><label><span data-i="payCur">回款币种</span><span class="tag" id="tagPC"></span></label>
-        <input class="inp" id="iPC" list="curList" autocomplete="off" spellcheck="false" style="text-transform:uppercase"><div class="hint" id="hPC"></div></div>
+        <input class="inp" id="iPC" list="curList" autocomplete="off" spellcheck="false" style="text-transform:uppercase"><div class="hint" id="hPC"></div></div></div>
       <datalist id="curList"><option value="USD"><option value="EUR"><option value="EGP"><option value="CNY"></datalist>
-      <div class="f"><label><span data-i="rate">汇率</span><span class="tag" id="tgRate"></span></label>
+      <div class="pair"><div class="f"><label><span data-i="rate">汇率</span><span class="tag" id="tgRate"></span></label>
         <div class="ctl"><input class="inp" id="iRate" type="number" step="any" inputmode="decimal"><a class="pill ghost" id="nbeLink" href="https://www.nbe.com.eg/NBE/E/#/EN/ExchangeRate" target="_blank" rel="noopener" style="height:44px;text-decoration:none">NBE</a></div>
         <div class="hint-row"><span class="hint" id="hRate"></span><button class="link hidden" id="rateAuto" data-i="rateAutoBtn">恢复自动</button></div></div>
       <div class="f"><label><span data-i="advance">预付款比例</span><span class="tag" id="tgAdv"></span></label>
-        <div class="ctl"><input class="inp" id="iAdv" type="number" step="any" min="0" max="100" inputmode="decimal"><span style="color:var(--text-2);font-weight:600">%</span></div><div class="hint"></div></div>
+        <div class="ctl"><input class="inp" id="iAdv" type="number" step="any" min="0" max="100" inputmode="decimal"><span style="color:var(--text-2);font-weight:600">%</span></div><div class="hint"></div></div></div>
     </div>
 
     <div class="divider"></div>
@@ -2898,9 +2900,9 @@ async function doRefresh() {
 }
 function renderStamp() {
   const s = $('#stamp');
-  if (!DATA) { s.textContent = 'v7 · ' + t('noData'); return; }
+  if (!DATA) { s.textContent = 'v8 · ' + t('noData'); return; }
   const d = new Date(DATA.fetchedAt);
-  s.textContent = 'v7 · ' + t('updatedAt') + d.toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  s.textContent = 'v8 · ' + t('updatedAt') + d.toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
 }
 
 /* ============ form state ============ */
