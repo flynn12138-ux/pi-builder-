@@ -37,7 +37,7 @@ button{cursor:pointer;border:0;background:none}
 .hidden{display:none!important}
 
 /* ---------- top bar ---------- */
-.topbar{position:sticky;top:0;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;
+.topbar{position:sticky;top:0;z-index:40;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;
   padding:10px 16px;background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
   border-bottom:1px solid var(--line)}
 .topbar h1{margin:0;font-size:18px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
@@ -67,8 +67,40 @@ main{max-width:1180px;margin:0 auto;padding:22px 16px 140px}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 16px}
 @media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .pair{display:contents}
-.full{grid-column:1/-1;margin-top:-6px}
-@media (max-width:520px){.grid{grid-template-columns:1fr;gap:12px}.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}.hero h2{font-size:24px}.hero{flex-wrap:wrap}.ctl .pill{padding:0 10px}.topbar{grid-template-columns:auto 1fr;}.topbar h1{display:none}.stamp{font-size:11px;max-width:120px}}
+:root{--sec:#f2f2f5;--orange:#c25e00;--orange-soft:rgba(255,149,0,.12)}
+:root[data-theme="dark"]{--sec:#2a2a2d;--orange:#ff9f0a;--orange-soft:rgba(255,159,10,.14)}
+.card{padding:14px}
+.sec{background:var(--sec);border-radius:16px;padding:16px;margin-bottom:12px}
+.sec .inp{background:var(--surface)}
+.sec .subhead{margin:0 0 12px}
+.hero h2{margin:0}
+.hero-acts{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}
+.hero-acts .pill{height:38px;padding:0 16px;font-size:14.5px;gap:8px}
+.grid.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.hint-col{display:flex;flex-direction:column;gap:2px;min-height:16px}
+.hint-col .links{display:flex;gap:12px}
+.suffix{position:relative}
+.suffix .inp{padding-right:36px}
+.suffix span{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text-2);font-weight:600;pointer-events:none}
+.tag.o{color:var(--orange);background:var(--orange-soft)}
+.inp.miss{border-color:var(--danger)!important;box-shadow:0 0 0 3px var(--danger-soft)}
+.pv-head{margin:26px 2px 12px}
+.pv-head h3{margin:0;font-size:20px;font-weight:600;letter-spacing:-.01em}
+.pv-sub{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px;font-size:14px;color:var(--text-3)}
+.exp-btn{flex:none;width:38px;height:38px;border-radius:11px;background:#e3eefc;color:#0b3d91;display:grid;place-items:center;transition:transform .25s var(--spring),background .25s}
+.exp-btn:hover{background:#d4e5fb}.exp-btn:active{transform:scale(.92)}
+:root[data-theme="dark"] .exp-btn{background:rgba(41,151,255,.18);color:#9cc7ff}
+.boxbtn{position:relative;padding:0 14px!important}
+.boxbtn .badge{position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--danger);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+.disclose{margin:4px 0 8px}
+#dlg{position:fixed;inset:0;z-index:95;display:grid;place-items:center;background:rgba(0,0,0,.28);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility .3s}
+#dlg.show{opacity:1;visibility:visible}
+#dlg .box{width:min(320px,86vw);background:var(--surface);border-radius:18px;padding:22px 20px 16px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);transform:scale(.94);transition:transform .4s var(--spring)}
+#dlg.show .box{transform:none}
+#dlg p{margin:0 0 16px;font-size:16px;font-weight:600}
+#dlg .pill{height:38px;padding:0 28px;font-size:15px}
+.full{grid-column:1/-1;margin-top:-14px}
+@media (max-width:520px){.grid,.grid.g2{grid-template-columns:1fr;gap:12px}.sec{padding:14px 12px}.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto auto;column-gap:10px;row-gap:0}.pair>.f{display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:6px;align-content:start}.pair>.f>label{align-self:end}.hero h2{font-size:24px}.hero{flex-wrap:wrap}.ctl .pill{padding:0 10px}.stamp{font-size:12px}}
 .f{display:flex;flex-direction:column;gap:6px;min-width:0;position:relative}
 .f label{font-size:14px;font-weight:600;color:var(--text-2);display:flex;align-items:center;flex-wrap:wrap;gap:4px}
 .f .ctl{display:flex;gap:6px;align-items:center}
@@ -156,7 +188,7 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
 .fab:hover{transform:scale(1.06)}.fab:active{transform:scale(.94)}
 .fab .badge{position:absolute;top:-2px;right:-2px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--danger);color:#fff;
   font-size:11px;font-weight:700;display:grid;place-items:center}
-@media (max-width:640px){.actionbar{left:12px;transform:none;bottom:14px}.actionbar .pill{padding:0 12px;font-size:13px}.fab{bottom:14px;right:12px}}
+@media (max-width:640px){.actionbar{left:12px;right:12px;transform:none;bottom:14px;justify-content:center}.actionbar .pill{padding:0 12px;font-size:13px}}
 
 /* sheets & modal */
 .scrim{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.32);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
@@ -255,7 +287,7 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
 </head>
 <body>
 <!-- password gate -->
-<div id="gate">
+<div id="gate" class="out" style="display:none">
   <div class="gate-box">
     <img id="gateLogo" alt="">
     <h2 data-i="title">形式发票制作</h2>
@@ -270,11 +302,7 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
 </div>
 
 <header class="topbar">
-  <div class="tb-left">
-    <button class="pill primary" id="btnRefresh"><svg id="refIco" width="14" height="14" viewBox="0 0 16 16"><path d="M13.5 8A5.5 5.5 0 1 1 11.9 4.1M13.5 2.5v3h-3" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i="refresh">更新数据</span></button>
-    <span class="stamp" id="stamp"></span>
-  </div>
-  <h1 data-i="title">形式发票制作</h1>
+  <div class="tb-left"><span class="stamp" id="stamp"></span></div>
   <div class="tb-right">
     <button class="icon-btn" id="btnSettings" data-t="settings"><svg width="17" height="17" viewBox="0 0 20 20"><path d="M10 12.6a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M16.2 12.3a1.3 1.3 0 0 0 .26 1.43l.05.05a1.58 1.58 0 1 1-2.23 2.23l-.05-.05a1.3 1.3 0 0 0-1.43-.26 1.3 1.3 0 0 0-.79 1.19v.14a1.58 1.58 0 0 1-3.16 0v-.07a1.3 1.3 0 0 0-.85-1.19 1.3 1.3 0 0 0-1.43.26l-.05.05a1.58 1.58 0 1 1-2.23-2.23l.05-.05a1.3 1.3 0 0 0 .26-1.43 1.3 1.3 0 0 0-1.19-.79h-.14a1.58 1.58 0 0 1 0-3.16h.07a1.3 1.3 0 0 0 1.19-.85 1.3 1.3 0 0 0-.26-1.43l-.05-.05a1.58 1.58 0 1 1 2.23-2.23l.05.05a1.3 1.3 0 0 0 1.43.26h.06a1.3 1.3 0 0 0 .79-1.19v-.14a1.58 1.58 0 0 1 3.16 0v.07a1.3 1.3 0 0 0 .79 1.19 1.3 1.3 0 0 0 1.43-.26l.05-.05a1.58 1.58 0 1 1 2.23 2.23l-.05.05a1.3 1.3 0 0 0-.26 1.43v.06a1.3 1.3 0 0 0 1.19.79h.14a1.58 1.58 0 0 1 0 3.16h-.07a1.3 1.3 0 0 0-1.19.79Z" stroke="currentColor" stroke-width="1.3" fill="none"/></svg></button>
     <div class="seg" id="langSeg"><button data-l="zh">中</button><button data-l="en">EN</button></div>
@@ -284,12 +312,17 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
 
 <main>
   <div id="envBanner" class="banner hidden"></div>
-  <div class="hero reveal" style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px"><div><div class="eyebrow">Proforma Invoice · HTEG-CD-R-030</div><h2 data-i="heroTitle">填写信息，发票实时生成。</h2></div><button class="pill ghost" id="btnClear" data-i="clearForm">清空</button></div>
+  <div class="hero reveal"><h2>PI-Making</h2>
+    <div class="hero-acts">
+      <button class="pill primary" id="btnRefresh"><svg id="refIco" width="16" height="16" viewBox="0 0 16 16"><path d="M13.5 8A5.5 5.5 0 1 1 11.9 4.1M13.5 2.5v3h-3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i="refresh">更新数据</span></button>
+      <button class="pill ghost" id="btnClear"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M2.5 4h11M6.5 4V2.6h3V4M4 4l.7 9.1a1 1 0 0 0 1 .9h4.6a1 1 0 0 0 1-.9L12 4M6.6 6.8v4.4M9.4 6.8v4.4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i="clearData">清空数据</span></button>
+    </div>
+  </div>
 
   <section class="card reveal d1" id="inputs">
-    <div class="grid">
+    <div class="sec"><div class="grid">
       <div class="f"><label><span data-i="orderNo">订单编号</span> 1<span class="tag" id="tgO0"></span></label>
-        <input class="inp" id="iOrder0" data-ph="orderPh" autocomplete="off">
+        <input class="inp" id="iOrder0" data-ph="orderPh" autocomplete="off" data-req="order0">
         <div class="ta-list" id="taOrder0"></div><div class="hint" id="hOrder0"></div></div>
       <div class="f"><label><span data-i="batch">批次</span> 1<span class="tag" id="tgB0"></span></label>
         <select class="inp" id="iBatch0"></select><div class="hint"></div></div>
@@ -300,33 +333,38 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
       <div class="f oslot hidden"><label><span data-i="orderNo">订单编号</span> 3<span class="tag" id="tgO2"></span></label>
         <input class="inp" id="iOrder2" data-ph="orderPh" autocomplete="off"><div class="ta-list" id="taOrder2"></div><div class="hint" id="hOrder2"></div></div>
       <div class="f oslot hidden"><label><span data-i="batch">批次</span> 3<span class="tag" id="tgB2"></span></label><select class="inp" id="iBatch2"></select><div class="hint"></div></div>
+    </div></div>
+    <div class="sec"><div class="grid g2">
       <div class="f"><label>PI / Invoice No.<span class="tag" id="tgPi"></span></label>
         <input class="inp" id="iPi" data-ph="piPh" autocomplete="off"><div class="hint"></div></div>
       <div class="f"><label>Invoice Date<span class="tag" id="tgDate"></span></label>
         <input class="inp" id="iDate" type="date"><div class="hint" id="hDate"></div></div>
+    </div></div>
+    <div class="sec"><div class="grid">
       <div class="pair"><div class="f"><label><span data-i="orderCur">订单币种</span><span class="tag" id="tagOC"></span></label>
         <input class="inp" id="iOC" list="curList" autocomplete="off" spellcheck="false" style="text-transform:uppercase"><div class="hint" id="hOC"></div></div>
       <div class="f"><label><span data-i="payCur">回款币种</span><span class="tag" id="tagPC"></span></label>
         <input class="inp" id="iPC" list="curList" autocomplete="off" spellcheck="false" style="text-transform:uppercase"><div class="hint" id="hPC"></div></div></div>
       <datalist id="curList"><option value="USD"><option value="EUR"><option value="EGP"><option value="CNY"></datalist>
       <div class="pair"><div class="f"><label><span data-i="rate">汇率</span><span class="tag" id="tgRate"></span></label>
-        <div class="ctl"><input class="inp" id="iRate" type="number" step="any" inputmode="decimal"><a class="pill ghost" id="nbeLink" href="https://www.nbe.com.eg/NBE/E/#/EN/ExchangeRate" target="_blank" rel="noopener" style="height:44px;text-decoration:none">NBE</a></div>
-        <div class="hint-row"><span class="hint" id="hRate"></span><button class="link hidden" id="rateAuto" data-i="rateAutoBtn">恢复自动</button></div></div>
+        <input class="inp" id="iRate" type="number" step="any" inputmode="decimal">
+        <div class="hint-col"><span class="hint" id="hRate"></span><span class="links"><button class="link hidden" id="rateAuto" data-i="rateAutoBtn">恢复自动</button><a class="link" id="nbeLink" href="https://www.nbe.com.eg/NBE/E/#/EN/ExchangeRate" target="_blank" rel="noopener">NBE ↗</a></span></div></div>
       <div class="f"><label><span data-i="advance">预付款比例</span><span class="tag" id="tgAdv"></span></label>
-        <div class="ctl"><input class="inp" id="iAdv" type="number" step="any" min="0" max="100" inputmode="decimal"><span style="color:var(--text-2);font-weight:600">%</span></div><div class="hint"></div></div></div>
-    </div>
+        <div class="suffix"><input class="inp" id="iAdv" type="number" step="any" min="0" max="100" inputmode="decimal"><span>%</span></div><div class="hint"></div></div></div>
+    </div></div>
 
-    <div class="divider"></div>
-    <button class="disclose" id="discBtn"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M3 1.5 6.5 5 3 8.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><span data-i="moreInfo">客户资料、条款与收款银行（自动匹配，可人工覆盖）</span></button>
+    <button class="disclose" id="discBtn"><svg width="12" height="12" viewBox="0 0 10 10"><path d="M3 1.5 6.5 5 3 8.5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg><span data-i="moreInfo">客户资料、条款与收款银行（自动匹配，可人工覆盖）</span></button>
     <div class="collapse" id="disc"><div>
-      <div class="subhead" data-i="custTerms">客户资料与条款</div>
-      <div class="grid" id="ovrGrid"></div>
-      <div class="subhead" data-i="bankInfo">收款银行（按回款币种自动匹配）</div>
-      <div class="grid" id="bankGrid"></div>
+      <div class="sec"><div class="subhead" data-i="custTerms">客户资料与条款</div><div class="grid" id="ovrGrid"></div></div>
+      <div class="sec"><div class="subhead" data-i="bankInfo">收款银行（按回款币种自动匹配）</div><div class="grid" id="bankGrid"></div></div>
     </div></div>
   </section>
 
-  <div class="section-title reveal d2"><h3 data-i="preview">形式发票预览</h3><span><span data-i="zoomTip">双击放大 · 滚轮缩放</span> · <span id="pageInfo"></span> · <button class="link" id="openWin" data-i="openWin">新窗口打开</button></span></div>
+  <div class="pv-head reveal d2">
+    <h3 data-i="preview">PI 预览</h3>
+    <div class="pv-sub"><span><span data-i="zoomTip">双击放大 · 滚轮缩放</span> · <span id="pageInfo"></span></span>
+      <button class="exp-btn" id="openWin" data-t="openWin"><svg width="17" height="17" viewBox="0 0 16 16"><path d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  </div>
   <div id="previewOuter" class="reveal d3"><div id="previewScale"><div class="pages" id="pages"></div></div></div>
 </main>
 
@@ -334,9 +372,8 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
   <button class="pill primary" id="btnSave"><span data-i="save">保存</span></button>
   <button class="pill ghost" id="btnXlsx"><span data-i="exportXlsx">导出 Excel</span></button>
   <button class="pill ghost" id="btnPdf"><span data-i="exportPdf">导出 PDF</span></button>
-  <button class="pill ghost" id="btnBig" data-t="bigView" style="padding:0 12px"><svg width="15" height="15" viewBox="0 0 16 16"><path d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="pill ghost boxbtn" id="btnBox" data-t="box"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M3.5 8.5 5.6 4.3A1.5 1.5 0 0 1 7 3.5h10a1.5 1.5 0 0 1 1.4.8l2.1 4.2M3.5 8.5v10a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-10M3.5 8.5h17M9.5 12.5h5" stroke="currentColor" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="badge hidden" id="boxCount">0</span></button>
 </div>
-<button class="fab" id="btnBox" data-t="box"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3.5 8.5 5.6 4.3A1.5 1.5 0 0 1 7 3.5h10a1.5 1.5 0 0 1 1.4.8l2.1 4.2M3.5 8.5v10a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-10M3.5 8.5h17M9.5 12.5h5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="badge hidden" id="boxCount">0</span></button>
 
 <div class="scrim" id="scrim"></div>
 <aside class="sheet" id="boxSheet">
@@ -355,6 +392,7 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
   <div class="zbar"><button class="icon-btn" id="zOut">−</button><span id="zPct">100%</span><button class="icon-btn" id="zIn">+</button><button class="pill ghost" id="zFit" data-i="zFit">适应</button><button class="pill ghost" id="zWin" data-i="openWin">新窗口打开</button><button class="icon-btn" id="zClose">✕</button></div>
   <div id="zStage"><div id="zCanvas"><div class="pages" id="zPages"></div></div></div>
 </div>
+<div id="dlg"><div class="box"><p id="dlgMsg"></p><button class="pill primary" id="dlgOk">OK</button></div></div>
 <div class="toast" id="toast"></div>
 <div id="printRoot"></div>
 
@@ -2588,14 +2626,14 @@ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<
 /* ============ i18n ============ */
 const I18N = {
   zh: {
-    addOrder: '+ 添加订单', addOrder23: '添加订单 2 / 3', collapseOrders: '收起订单 2 / 3', tAuto: '自动', tMod: '已修改', tManual: '手动填写', curModified: '已修改台账带出的币种', srcOC: '已按台账「20-Order Currency」匹配', srcPC: '已按台账「29-Payment currency」匹配', missOC: '台账中该订单没有订单币种，请填写', missPC: '台账中该订单没有回款币种，请填写', curManual: '已手动修改', needCur: '请填写订单币种和回款币种', clearForm: '清空', cleared: '已清空，可开始新的形式发票', bigView: '大图预览', diffCust: '客户与订单 1 不同', rateAutoBtn: '恢复自动', custTerms: '客户资料与条款', bankInfo: '收款银行（按回款币种自动匹配）', zoomTip: '双击放大 · 滚轮缩放', zFit: '适应',
+    addOrder: '+ 添加订单', clearData: '清空数据', reqMissing: '有必填项空白，请检查', closeManual: '如果窗口没有自动关闭，请手动关闭此窗口', addOrder23: '添加订单 2 / 3', collapseOrders: '收起订单 2 / 3', tAuto: '自动', tMod: '已修改', tManual: '手动填写', curModified: '已修改台账带出的币种', srcOC: '已按台账「20-Order Currency」匹配', srcPC: '已按台账「29-Payment currency」匹配', missOC: '台账中该订单没有订单币种，请填写', missPC: '台账中该订单没有回款币种，请填写', curManual: '已手动修改', needCur: '请填写订单币种和回款币种', clearForm: '清空', cleared: '已清空，可开始新的形式发票', bigView: '大图预览', diffCust: '客户与订单 1 不同', rateAutoBtn: '恢复自动', custTerms: '客户资料与条款', bankInfo: '收款银行（按回款币种自动匹配）', zoomTip: '双击放大 · 滚轮缩放', zFit: '适应',
     rateAuto: (a, b, d, r) => `已自动带出 08-Ex Rate（${d}）：1 ${a} = ${r} ${b}，请核对`, rateNotToday: '当天无汇率，已用最近日期', rateNone: '汇率表中未找到该币种对，请手动填写', rateEmpty: '未读到 08-Ex Rate 汇率：请点「更新数据」，或在设置中检查汇率表字段', rateDiag: (n, d) => n ? `已读取 ${n} 条汇率，最新日期 ${d}` : '尚未读取到汇率数据（保存设置后会自动更新）', openWin: '新窗口打开', viewTitle: '形式发票预览', rateManualSet: '已手动修改汇率',
     bName: 'Beneficiary Name', bBank: 'Beneficiary Bank', bSwift: 'SWIFT Code', bIban: 'IBAN Number', bAcct: 'Account No.',
     gRate: '汇率表（08-Ex Rate）', gRateP: '按发票日期取当天汇率；若汇率按列存放（如 USD、EUR 各一列），只需选「日期」，其余留空。', fDate: '日期', fPair: '币种对', fFrom: '原币', fTo: '目标币', fRateV: '汇率值', fOrderCur: '订单币种', fPayCur: '回款币种',
     title: '形式发票制作', gateTip: '请输入访问密码', password: '密码', remember: '此设备记住 7 天', wrongPwd: '密码不正确',
     refresh: '更新数据', updatedAt: '数据更新于 ', noData: '尚未获取数据，请点击「更新数据」', heroTitle: '填写信息，发票实时生成。',
     orderNo: '订单编号', orderPh: '输入部分订单号搜索', batch: '批次', piPh: '手动填写', orderCur: '订单币种', payCur: '回款币种',
-    rate: '汇率', advance: '预付款比例', moreInfo: '客户资料、条款与收款银行（自动匹配，可人工覆盖）', preview: '形式发票预览',
+    rate: '汇率', advance: '预付款比例', moreInfo: '客户资料、条款与收款银行（自动匹配，可人工覆盖）', preview: 'PI 预览',
     save: '保存', exportXlsx: '导出 Excel', exportPdf: '导出 PDF', box: '保存箱', mapping: '字段映射设置', settings: '字段映射设置', theme: '亮/暗模式',
     allBatch: '全部批次', noBatch: '（无批次）', items: (n) => `${n} 项产品`, pages: (n) => `共 ${n} 页`,
     rateSame: '币种一致，汇率为 1', rateDiff: '币种不一致：请核对当天 NBE 汇率（1 订单币种 = ? 回款币种）', rateManual: '其他币种：请人工填写汇率',
@@ -2615,14 +2653,14 @@ const I18N = {
     dlBlocked: '若浏览器拦截下载，请到多维表格「' + HIST_NAME + '」中下载附件。', attachFail: '版本已保存，但附件上传失败：'
   },
   en: {
-    addOrder: '+ Add order', addOrder23: 'Add orders 2 / 3', collapseOrders: 'Hide orders 2 / 3', tAuto: 'Auto', tMod: 'Modified', tManual: 'Manual', curModified: 'Changed from the ledger value', srcOC: 'Matched from ledger “20-Order Currency”', srcPC: 'Matched from ledger “29-Payment currency”', missOC: 'No order currency in the ledger — please enter', missPC: 'No payment currency in the ledger — please enter', curManual: 'Edited manually', needCur: 'Enter both currencies', clearForm: 'Clear', cleared: 'Cleared — ready for a new invoice', bigView: 'Large preview', diffCust: 'customer differs from order 1', rateAutoBtn: 'Use auto', custTerms: 'Customer & terms', bankInfo: 'Beneficiary bank (matched by payment currency)', zoomTip: 'Double-click to zoom · scroll to scale', zFit: 'Fit',
+    addOrder: '+ Add order', clearData: 'Clear data', reqMissing: 'Some required fields are empty — please check', closeManual: 'If this window did not close, please close it manually', addOrder23: 'Add orders 2 / 3', collapseOrders: 'Hide orders 2 / 3', tAuto: 'Auto', tMod: 'Modified', tManual: 'Manual', curModified: 'Changed from the ledger value', srcOC: 'Matched from ledger “20-Order Currency”', srcPC: 'Matched from ledger “29-Payment currency”', missOC: 'No order currency in the ledger — please enter', missPC: 'No payment currency in the ledger — please enter', curManual: 'Edited manually', needCur: 'Enter both currencies', clearForm: 'Clear', cleared: 'Cleared — ready for a new invoice', bigView: 'Large preview', diffCust: 'customer differs from order 1', rateAutoBtn: 'Use auto', custTerms: 'Customer & terms', bankInfo: 'Beneficiary bank (matched by payment currency)', zoomTip: 'Double-click to zoom · scroll to scale', zFit: 'Fit',
     rateAuto: (a, b, d, r) => `Auto from 08-Ex Rate (${d}): 1 ${a} = ${r} ${b} — please verify`, rateNotToday: 'no rate for today, latest date used', rateNone: 'Pair not found in the rate table — enter manually', rateEmpty: 'No rates read from 08-Ex Rate: click Update data or check the rate-table mapping', rateDiag: (n, d) => n ? `${n} rates read, latest date ${d}` : 'No rates read yet (updates after saving settings)', openWin: 'Open in new window', viewTitle: 'Invoice preview', rateManualSet: 'Rate edited manually',
     bName: 'Beneficiary Name', bBank: 'Beneficiary Bank', bSwift: 'SWIFT Code', bIban: 'IBAN Number', bAcct: 'Account No.',
     gRate: 'Exchange rates (08-Ex Rate)', gRateP: 'Uses the rate for the invoice date. If rates are stored one column per currency (USD, EUR…), select only “Date”.', fDate: 'Date', fPair: 'Currency pair', fFrom: 'From', fTo: 'To', fRateV: 'Rate', fOrderCur: 'Order currency', fPayCur: 'Payment currency',
     title: 'Proforma Invoice Builder', gateTip: 'Enter the access password', password: 'Password', remember: 'Remember this device for 7 days', wrongPwd: 'Incorrect password',
     refresh: 'Update data', updatedAt: 'Data as of ', noData: 'No data yet — click “Update data”', heroTitle: 'Fill in. Watch the invoice build itself.',
     orderNo: 'Order No.', orderPh: 'Type part of an order no.', batch: 'Batch', piPh: 'Enter manually', orderCur: 'Order currency', payCur: 'Payment currency',
-    rate: 'Exchange rate', advance: 'Advance payment', moreInfo: 'Customer, terms & bank (auto-matched, override as needed)', preview: 'Invoice preview',
+    rate: 'Exchange rate', advance: 'Advance payment', moreInfo: 'Customer, terms & bank (auto-matched, override as needed)', preview: 'PI Preview',
     save: 'Save', exportXlsx: 'Export Excel', exportPdf: 'Export PDF', box: 'Saved versions', mapping: 'Field mapping', settings: 'Field mapping', theme: 'Light / dark',
     allBatch: 'All batches', noBatch: '(no batch)', items: (n) => `${n} item${n === 1 ? '' : 's'}`, pages: (n) => `${n} page${n === 1 ? '' : 's'}`,
     rateSame: 'Same currency — rate is 1', rateDiff: 'Currencies differ: check today’s NBE rate (1 order cur. = ? payment cur.)', rateManual: 'Other currency: enter the rate manually',
@@ -2900,9 +2938,9 @@ async function doRefresh() {
 }
 function renderStamp() {
   const s = $('#stamp');
-  if (!DATA) { s.textContent = 'v8 · ' + t('noData'); return; }
+  if (!DATA) { s.textContent = 'v9 · ' + t('noData'); return; }
   const d = new Date(DATA.fetchedAt);
-  s.textContent = 'v8 · ' + t('updatedAt') + d.toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  s.textContent = 'v9 · ' + t('updatedAt') + d.toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
 }
 
 /* ============ form state ============ */
@@ -2963,7 +3001,7 @@ function buildInv() {
 }
 function saveDraft() { /* intentionally not persisted */ }
 function resetForm() {
-  frozen = null; F = normForm(null);
+  frozen = null; F = normForm(null); reqActive = false; document.querySelectorAll('.inp.miss').forEach((e) => e.classList.remove('miss'));
   $('#zoomer').classList.remove('show');
   document.querySelectorAll('.ta-list.show').forEach((l) => l.classList.remove('show'));
   syncInputs(); renderPreview();
@@ -3079,9 +3117,29 @@ function setCur(k, code) {
   const [c, o] = !code ? ['', ''] : (MAIN_CURS.includes(code) ? [code, ''] : ['Others', code]);
   if (k === 'o') { F.orderCur = c; F.orderCurOther = o; } else { F.payCur = c; F.payCurOther = o; }
 }
+let reqActive = false;
+function reqCheck(show) {
+  const a = frozen ? frozen.auto : autoValues(), b = bankAuto();
+  const oc = PICore.curCode(F.orderCur, F.orderCurOther), pc = PICore.curCode(F.payCur, F.payCurOther);
+  const filled = (v) => v !== undefined && v !== null && String(v).trim() !== '';
+  const list = [['#iOrder0', filled(F.orders[0].no)], ['#iPi', filled(F.piNo)], ['#iDate', filled(F.date)], ['#iOC', filled(curOf('o'))], ['#iPC', filled(curOf('p'))],
+    ['#iRate', (oc && oc === pc) || (filled(F.rate) && !isNaN(Number(F.rate)))], ['#iAdv', filled(F.advance)]];
+  OVR_FIELDS.forEach(([, k]) => list.push(['#ov_ovrGrid_' + k, filled(F.ovr[k]) || filled(a[k])]));
+  BANK_FIELDS.forEach(([, k]) => list.push(['#ov_bankGrid_' + k, filled(F.bank[k]) || filled(b[k])]));
+  if (show) reqActive = true;
+  const miss = [];
+  for (const [sel, ok] of list) { const el = $(sel); if (!el) continue; el.classList.toggle('miss', reqActive && !ok); if (!ok) miss.push(el); }
+  if (!miss.length) { reqActive = false; return true; }
+  if (show) {
+    if (miss.some((el) => el.closest('#disc'))) { $('#discBtn').classList.add('open'); $('#disc').classList.add('open'); }
+    $('#dlgMsg').textContent = t('reqMissing'); $('#dlg').classList.add('show');
+    setTimeout(() => miss[0].scrollIntoView({ behavior: 'smooth', block: 'center' }), 350);
+  }
+  return false;
+}
 function setTag(el, st) {
   if (typeof el === 'string') el = $('#' + el); if (!el) return;
-  el.className = 'tag' + (st === 'mod' ? ' r' : st ? ' g' : '');
+  el.className = 'tag' + (st === 'mod' ? ' r' : st === 'manual' ? ' o' : st ? ' g' : '');
   el.textContent = st === 'auto' ? t('tAuto') : st === 'mod' ? t('tMod') : st === 'manual' ? t('tManual') : '';
 }
 function syncMoreBtn() {
@@ -3251,10 +3309,11 @@ function schedule() { clearTimeout(schedT); schedT = setTimeout(renderPreview, 6
 function renderPreview() {
   const inv = buildInv();
   const pages = $('#pages');
+  if (reqActive) reqCheck(false);
   if (!inv.orderNo) { refreshTags(); pages.innerHTML = `<div class="empty">${esc(DATA ? t('needOrder') : t('noData'))}</div>`; $('#pageInfo').textContent = ''; fitPreview(); return; }
   const r = renderInvoice(pages, inv);
   $('#pageInfo').textContent = `${t('items', r.c.items.length)} · ${t('pages', r.pages)}`;
-  fitPreview(); refreshTags();
+  fitPreview(); refreshTags(); if (reqActive) reqCheck(false);
   if ($('#zoomer').classList.contains('show')) { $('#zPages').innerHTML = pages.innerHTML; }
 }
 function fitPreview() {
@@ -3300,8 +3359,10 @@ function viewerMode() {
   $('#zWin').classList.add('hidden');
   const bar = $('.zbar');
   bar.insertAdjacentHTML('beforeend', '<button class="pill ghost" id="vX">Excel</button><button class="pill ghost" id="vP">PDF</button>');
-  $('#vX').addEventListener('click', () => exportX(data.inv)); $('#vP').addEventListener('click', () => exportP(data.inv));
-  $('#zClose').addEventListener('click', () => { try { window.close(); } catch (e) {} });
+  const closeWin = (ms) => setTimeout(() => { try { window.close(); } catch (e) {} setTimeout(() => toast(t('closeManual'), 6000), 400); }, ms);
+  $('#vX').addEventListener('click', async () => { await exportX(data.inv); closeWin(1500); });
+  $('#vP').addEventListener('click', async () => { await exportP(data.inv); closeWin(1500); });
+  $('#zClose').addEventListener('click', () => closeWin(0));
   $('#zoomer').classList.add('show'); document.body.classList.add('viewing'); bindZoom(); requestAnimationFrame(zFit);
   addEventListener('resize', zFit);
   return true;
@@ -3390,7 +3451,7 @@ function download(blob, name) {
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
 }
 function validate(inv, forSave) {
-  if (inv.orderNo && (!curOf('o') || !curOf('p'))) { toast(t('needCur')); return false; }
+  if (inv.orderNo && (!PICore.curCode(inv.orderCur, inv.orderCurOther) || !PICore.curCode(inv.payCur, inv.payCurOther))) { toast(t('needCur')); return false; }
   if (!inv.orderNo) { toast(t('needOrder')); return false; }
   if (forSave && !inv.piNo) { toast(t('needPi')); $('#iPi').focus(); return false; }
   const c = PICore.compute(inv);
@@ -3548,7 +3609,8 @@ async function sha256(s) {
 function gateOk() { const u = LS.get('unlock', 0); return (u && Date.now() < u) || sessionStorageOk(); }
 function sessionStorageOk() { try { return sessionStorage.getItem('pi.ok') === '1'; } catch (e) { return false; } }
 function setupGate(onPass) {
-  const gate = $('#gate'); $('#gateLogo').src = LOGO;
+  const gate = $('#gate'); gate.classList.add('out'); onPass(); return; // password removed
+  $('#gateLogo').src = LOGO;
   if (gateOk()) { gate.classList.add('out'); onPass(); return; }
   setTimeout(() => $('#gatePwd').focus(), 300);
   $('#gateForm').addEventListener('submit', async (e) => {
@@ -3585,8 +3647,8 @@ async function boot() {
 document.addEventListener('DOMContentLoaded', () => {
   applyLang(); applyTheme();
   if (viewerMode()) return;
-  $('#openWin').addEventListener('click', () => openInWindow(buildInv()));
-  $('#btnBig').addEventListener('click', () => openInWindow(buildInv()));
+  $('#openWin').addEventListener('click', () => { if (reqCheck(true)) openInWindow(buildInv()); });
+  $('#dlgOk').addEventListener('click', () => $('#dlg').classList.remove('show'));
   $('#btnClear').addEventListener('click', () => { resetForm(); toast(t('cleared')); });
   // Lark may only hide the plugin panel instead of reloading it: reset when the panel comes back
   let zeroSized = false, hiddenAt = 0;
@@ -3610,9 +3672,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => { if (b.closest('.modal')) { $('#pvModal').classList.remove('show'); if (!document.querySelector('.sheet.show')) $('#scrim').classList.remove('show'); } else closeAll(); }));
   $('#scrim').addEventListener('click', closeAll);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(); });
-  $('#btnSave').addEventListener('click', doSave);
-  $('#btnXlsx').addEventListener('click', () => exportX(buildInv()));
-  $('#btnPdf').addEventListener('click', () => exportP(buildInv()));
+  $('#btnSave').addEventListener('click', () => { if (reqCheck(true)) doSave(); });
+  $('#btnXlsx').addEventListener('click', () => { if (reqCheck(true)) exportX(buildInv()); });
+  $('#btnPdf').addEventListener('click', () => { if (reqCheck(true)) exportP(buildInv()); });
   new ResizeObserver(() => fitPreview()).observe($('#previewOuter').parentElement);
   setupGate(boot);
 });
