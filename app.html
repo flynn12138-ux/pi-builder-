@@ -259,12 +259,12 @@ body.viewing>*:not(#zoomer),.zbar{user-select:none;-webkit-user-select:none}
 .pg .co{text-align:center;font-weight:700;font-size:17px;margin-top:2px}
 .pg .ti{text-align:center;font-weight:700;font-size:16px;letter-spacing:.08em;margin-top:4px}
 .pg .or{text-align:center;font-size:10px;margin-top:2px;margin-bottom:12px}
-.pg .hgrid{display:grid;grid-template-columns:92px minmax(0,1fr) 104px minmax(0,1fr);column-gap:8px;row-gap:3px;align-items:start}
+.pg .hgrid{display:grid;grid-template-columns:max-content minmax(0,1fr) max-content minmax(0,1fr);column-gap:14px;row-gap:3px;align-items:start}
 .pg .hgrid b{font-weight:700;white-space:nowrap}
 .pg .hgrid div{word-break:break-word}
 .pg .hgrid .sp{grid-column:1/-1;height:6px}
 .pg .hgrid .v2{padding-right:0}
-.pg .hgrid .l2{padding-left:12px}
+.pg .hgrid .l2{padding-left:18px}
 .pg .kv{display:grid;grid-template-columns:96px 1fr;column-gap:6px;row-gap:3px;align-items:start}
 .pg .kv b{font-weight:700}
 .pg .kv div{white-space:pre-line;word-break:break-word}
@@ -2547,6 +2547,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
       ws.getCell('E' + r).value = it ? it.price : null;
       ws.getCell('F' + r).value = it && it.amount != null ? { formula: `ROUND(D${r}*E${r},3)`, result: it.amount } : null;
       ws.getCell('G' + r).value = null;
+      if (!it && r > 24) ws.getRow(r).hidden = true; // fewer than 10 items: hide unused template rows
       sp(ws.getCell('D' + r), 'numFmt', '#,##0.###');
       sp(ws.getCell('E' + r), 'numFmt', '#,##0.000');
       sp(ws.getCell('F' + r), 'numFmt', '#,##0.000');
@@ -2941,9 +2942,9 @@ async function doRefresh() {
 }
 function renderStamp() {
   const s = $('#stamp');
-  if (!DATA) { s.textContent = 'v10 · ' + t('noData'); return; }
+  if (!DATA) { s.textContent = 'v11 · ' + t('noData'); return; }
   const d = new Date(DATA.fetchedAt);
-  s.textContent = 'v10 · ' + t('updatedAt') + d.toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  s.textContent = 'v11 · ' + t('updatedAt') + d.toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
 }
 
 /* ============ form state ============ */
@@ -3279,7 +3280,7 @@ function renderInvoice(root, inv) {
   const c = PICore.compute(inv);
   root.innerHTML = '';
   const rows = c.items.slice();
-  while (rows.length < 10) rows.push(null);
+  if (!rows.length) rows.push(null);
   const over = (pg) => { const b = pg.querySelector('.body'); return b.scrollHeight > b.clientHeight + 1; };
   let pg = newPage(root, inv, c); let tb = pg.querySelector('tbody');
   for (const it of rows) {
